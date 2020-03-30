@@ -8,13 +8,11 @@ public class GatePropagateSystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        Debug.Log("Foop");
         Entities
             .WithoutBurst()
             .ForEach((ref GateOutput output, in DynamicBuffer<GateInput> inputs, in GateTypeComponent gateType) =>
                 {
                     output.value += 1;
                 }).Run();
-        Debug.Log("Blarg");
     }
 }
