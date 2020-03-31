@@ -81,9 +81,11 @@ public class GateDagSortSystem : SystemBase
         // Loop again to populate output lists
         for (int i = 0; i < gatesToSort.Count; ++i)
         {
-            foreach (var input in gatesToSort[i].inputs)
+            int numInputs = gatesToSort[i].inputs.Length;
+            for(int j=0; j<numInputs; ++j)
             {
-                gatesToSort[input].outputs.Add(i);
+                int inputIndex = gatesToSort[i].inputs[j];
+                gatesToSort[inputIndex].outputs.Add(i);
             }
         }
 
