@@ -1,0 +1,4 @@
+*.unity eol=lf
+*.meta eol=lf
+*.prefab eol=lf
+*.cs eol=lf
