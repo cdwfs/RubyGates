@@ -2,23 +2,26 @@
 
 public enum GateType
 {
-    AND = 1,
-    OR = 2,
-    XOR = 3,
-    NOT = 4,
-    BUTTON
+    And = 1,
+    Or = 2,
+    Xor = 3,
+    Not = 4,
+    Button
 }
 
+// Singleton tag component whose presence indicates that the node DAG needs to be re-sorted.
 public struct DagIsStale : IComponentData
 {
-    
+
 }
 
+// A gate's current output value (0 or 1)
 public struct GateOutput : IComponentData
 {
     public int Value;
 }
 
+// A buffer of the gate entities (0+) whose outputs feed into this gate.
 public struct GateInput : IBufferElementData
 {
     public Entity InputEntity;
@@ -30,6 +33,7 @@ public struct GateTypeComponent : IComponentData
     public GateType Value;
 }
 
+// The gates are topologically sorted and processed according to their depth.
 public struct GateDagDepth : ISharedComponentData
 {
     public int Value;

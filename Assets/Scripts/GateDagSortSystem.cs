@@ -5,44 +5,43 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-
 public class GateDagSortSystem : SystemBase
 {
-    private EntityQuery gateQuery;
-    
+    private EntityQuery _gateQuery;
+
     protected override void OnCreate()
     {
         // TODO: is this supposed to be called in OnCreate or OnUpdate?
         RequireSingletonForUpdate<DagIsStale>();
-        
-        gateQuery = GetEntityQuery(
+
+        _gateQuery = GetEntityQuery(
             ComponentType.ReadOnly<GateOutput>());
     }
 
     struct SortableGate : IDisposable
     {
-        public Entity entity;
-        public NativeList<int> inputs;
-        public NativeList<int> outputs;
+        public Entity Entity;
+        public NativeList<int> Inputs;
+        public NativeList<int> Outputs;
 
         public void Dispose()
         {
-            inputs.Dispose();
-            outputs.Dispose();
+            Inputs.Dispose();
+            Outputs.Dispose();
         }
     }
 
     protected override void OnUpdate()
     {
         // Retrieve an array of all the gate nodes and their inputs
-        var gateEntities = gateQuery.ToEntityArray(Allocator.TempJob);
+        var gateEntities = _gateQuery.ToEntityArray(Allocator.TempJob);
 
         // Generate an entity-to-index lookup table, so we can track inter-entity references as
         // list indices while sorting.
         // TODO(cort): NativeHashMap is currently optimized for large datasets with a parallel writer, and is not
         // great for small sets + single reader/writer.
         var entityToIndex = new Dictionary<Entity, int>(gateEntities.Length);
-        for (int i = 0; i < gateEntities.Length; ++i)
+        for (var i = 0; i < gateEntities.Length; ++i)
         {
             entityToIndex[gateEntities[i]] = i;
         }
@@ -52,57 +51,61 @@ public class GateDagSortSystem : SystemBase
         var gateUnsortedInputCounts = new NativeArray<int>(gateEntities.Length, Allocator.Temp);
         var readyToSortIndices = new NativeList<int>(gateEntities.Length, Allocator.Temp);
         var gateDepths = new NativeArray<int>(gateEntities.Length, Allocator.Temp);
-        for (int i = 0; i < gateEntities.Length; ++i)
+        for (var i = 0; i < gateEntities.Length; ++i)
         {
             var ent = gateEntities[i];
             var inputs = gateInputs[ent];
             var sg = new SortableGate
             {
-                entity = gateEntities[i],
-                inputs = new NativeList<int>(inputs.Length, Allocator.Temp),
+                Entity = gateEntities[i],
+                Inputs = new NativeList<int>(inputs.Length, Allocator.Temp),
                 // output count could technically go up to gateEntities.Length, but we'll start capacity at 8 for now to avoid O(N^2) mem usage
-                outputs = new NativeList<int>(8, Allocator.Temp),
+                Outputs = new NativeList<int>(8, Allocator.Temp),
             };
-            foreach (var input in inputs)
+            for (var j = 0; j < inputs.Length; j++)
             {
+                var input = inputs[j];
                 int inputIndex = entityToIndex[input.InputEntity];
-                sg.inputs.Add(inputIndex);
+                sg.Inputs.Add(inputIndex);
             }
+
             gatesToSort.Add(sg);
 
-            gateUnsortedInputCounts[i] = gatesToSort[i].inputs.Length;
-            if (gatesToSort[i].inputs.Length == 0)
+            gateUnsortedInputCounts[i] = gatesToSort[i].Inputs.Length;
+            if (gatesToSort[i].Inputs.Length == 0)
             {
                 readyToSortIndices.Add(i);
             }
+
             gateDepths[i] = -1;
         }
+
         gateEntities.Dispose();
         // Loop again to populate output lists
-        for (int i = 0; i < gatesToSort.Count; ++i)
+        for (var i = 0; i < gatesToSort.Count; ++i)
         {
-            int numInputs = gatesToSort[i].inputs.Length;
-            for(int j=0; j<numInputs; ++j)
+            var numInputs = gatesToSort[i].Inputs.Length;
+            for (var j = 0; j < numInputs; ++j)
             {
-                int inputIndex = gatesToSort[i].inputs[j];
-                gatesToSort[inputIndex].outputs.Add(i);
+                var inputIndex = gatesToSort[i].Inputs[j];
+                gatesToSort[inputIndex].Outputs.Add(i);
             }
         }
 
         // And now the topological sort.
         // Basically using Kahn's algorithm (https://en.wikipedia.org/wiki/Topological_sort#Kahn's_algorithm)
         // adapted to compute the depth of each output element (https://cs.stackexchange.com/questions/2524/getting-parallel-items-in-dependency-resolution)
-        int numToSort = gatesToSort.Count;
+        var numToSort = gatesToSort.Count;
         while (readyToSortIndices.Length > 0)
         {
             // Grab the next item from the ready list
-            int indexToSort = readyToSortIndices[0];
+            var indexToSort = readyToSortIndices[0];
             readyToSortIndices.RemoveAtSwapBack(0);
             Debug.Assert(gateUnsortedInputCounts[indexToSort] == 0);
             // Decrement all its outputs
-            foreach (var outputIndex in gatesToSort[indexToSort].outputs)
+            foreach (var outputIndex in gatesToSort[indexToSort].Outputs)
             {
-                Debug.Assert(gatesToSort[outputIndex].inputs.AsArray().Contains(indexToSort));
+                Debug.Assert(gatesToSort[outputIndex].Inputs.AsArray().Contains(indexToSort));
                 Debug.Assert(gateUnsortedInputCounts[outputIndex] > 0);
                 gateUnsortedInputCounts[outputIndex] -= 1;
                 if (gateUnsortedInputCounts[outputIndex] == 0)
@@ -110,17 +113,19 @@ public class GateDagSortSystem : SystemBase
                     readyToSortIndices.Add(outputIndex);
                 }
             }
+
             // Sort this output. Instead of appending to a sorted output list, take the max of
             // all the depths of our inputs, and add 1.
             Debug.Assert(gateDepths[indexToSort] == -1);
-            int maxInputDepth = -1;
-            foreach (var inputIndex in gatesToSort[indexToSort].inputs)
+            var maxInputDepth = -1;
+            foreach (var inputIndex in gatesToSort[indexToSort].Inputs)
             {
                 Debug.Assert(gateDepths[inputIndex] >= 0);
                 maxInputDepth = math.max(maxInputDepth, gateDepths[inputIndex]);
             }
+
             gateDepths[indexToSort] = maxInputDepth + 1;
-            EntityManager.SetSharedComponentData(gatesToSort[indexToSort].entity,
+            EntityManager.SetSharedComponentData(gatesToSort[indexToSort].Entity,
                 new GateDagDepth {Value = maxInputDepth + 1});
             numToSort -= 1;
         }
