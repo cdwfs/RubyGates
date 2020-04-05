@@ -12,7 +12,7 @@ public class GatePropagateSystem : SystemBase
             .WithoutBurst()
             .ForEach((ref GateOutput output, in DynamicBuffer<GateInput> inputs, in GateTypeComponent gateType) =>
                 {
-                    output.value += 1;
+                    output.Value += 1;
                 }).Run();
     }
 }

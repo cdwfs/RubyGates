@@ -65,7 +65,7 @@ public class GateDagSortSystem : SystemBase
             };
             foreach (var input in inputs)
             {
-                int inputIndex = entityToIndex[input.inputEntity];
+                int inputIndex = entityToIndex[input.InputEntity];
                 sg.inputs.Add(inputIndex);
             }
             gatesToSort.Add(sg);
@@ -121,7 +121,7 @@ public class GateDagSortSystem : SystemBase
             }
             gateDepths[indexToSort] = maxInputDepth + 1;
             EntityManager.SetSharedComponentData(gatesToSort[indexToSort].entity,
-                new GateDagDepth {value = maxInputDepth + 1});
+                new GateDagDepth {Value = maxInputDepth + 1});
             numToSort -= 1;
         }
 
