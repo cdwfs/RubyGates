@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 
 public enum GateType
 {
@@ -37,4 +38,10 @@ public struct GateTypeComponent : IComponentData
 public struct GateDagDepth : ISharedComponentData
 {
     public int Value;
+}
+
+public struct ClickableGate : IComponentData
+{
+    public float2 RectMin;
+    public float2 RectMax;
 }

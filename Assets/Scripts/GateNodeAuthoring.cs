@@ -50,8 +50,26 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             typeof(GateInput),
             typeof(GateDagDepth),
         };
+        // Gates with box colliders are clickable
+        var box = GetComponent<BoxCollider2D>();
+        if (box != null)
+        {
+            gateComponentTypes.Add(typeof(ClickableGate));
+        }
+
         dstManager.AddComponents(gateEntity, new ComponentTypes(gateComponentTypes.ToArray()));
 
+        if (box != null)
+        {
+            var bounds = box.bounds;
+            var boundsMin = bounds.min;
+            var boundsMax = bounds.max;
+            dstManager.SetComponentData(gateEntity, new ClickableGate
+            {
+                RectMin = new float2(boundsMin.x, boundsMin.y),
+                RectMax = new float2(boundsMax.x, boundsMax.y),
+            });
+        }
 
         dstManager.SetComponentData(gateEntity, new GateTypeComponent {Value = gateType});
 
