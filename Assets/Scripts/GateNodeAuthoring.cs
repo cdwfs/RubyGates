@@ -92,7 +92,9 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             var wireEndPos = inputAttachTransform.position;
             // TODO(cort): conversionSystem.InstantiateAdditionalEntity() would be ideal here. Instead, copy what we need from the prefab.
             var wireEntity = conversionSystem.CreateAdditionalEntity(gameObject);
-            dstManager.SetName(wireEntity, "Wire");
+#if UNITY_EDITOR
+            dstManager.SetName(wireEntity, "Wire"); // TODO: make this call [Conditional]
+#endif
             dstManager.AddComponents(wireEntity, new ComponentTypes(
                 typeof(LocalToWorld),
                 typeof(RenderBounds),
