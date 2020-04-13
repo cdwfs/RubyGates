@@ -82,8 +82,7 @@ MonoBehaviour:
   inputs: []
   inputAttachTransform: {fileID: 1041540333539365735}
   outputAttachTransform: {fileID: 3821486741864302620}
-  activeWirePrefab: {fileID: 3859305906453215834, guid: c7c55e2c6e7df87469e89b71da38f679, type: 3}
-  inactiveWirePrefab: {fileID: 1653162229743286493, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
+  wirePrefab: {fileID: 1653162229743286493, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
 --- !u!23 &3313024315540426011
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -13,8 +13,7 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
     public GateNodeAuthoring[] inputs;
     public Transform inputAttachTransform;
     public Transform outputAttachTransform;
-    public GameObject activeWirePrefab;
-    public GameObject inactiveWirePrefab;
+    public GameObject wirePrefab;
 
     private void OnDrawGizmos()
     {
@@ -37,8 +36,7 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
 
     public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)
     {
-        referencedPrefabs.Add(activeWirePrefab);
-        referencedPrefabs.Add(inactiveWirePrefab);
+        referencedPrefabs.Add(wirePrefab);
     }
 
     public void Convert(Entity gateEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
@@ -84,7 +82,7 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             }
         }
 
-        var flip = true; // temp hack so I can see both wire prefabs
+        var wireAuthoring = wirePrefab.GetComponent<WireAuthoring>();
         foreach (var input in inputs)
         {
             // Create a linked entity for the wires leading from the input to this gate
@@ -95,27 +93,29 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
 #if UNITY_EDITOR
             dstManager.SetName(wireEntity, "Wire"); // TODO: make this call [Conditional]
 #endif
-            dstManager.AddComponents(wireEntity, new ComponentTypes(
+            dstManager.AddComponents(wireEntity, new ComponentTypes(new ComponentType[]{
                 typeof(LocalToWorld),
                 typeof(RenderBounds),
                 typeof(Translation),
                 typeof(Rotation),
-                typeof(NonUniformScale)));
+                typeof(NonUniformScale),
+                typeof(WireInput)}));
 
-            var activeWirePrefabEntity = conversionSystem.GetPrimaryEntity(activeWirePrefab);
-            var inactiveWirePrefabEntity = conversionSystem.GetPrimaryEntity(inactiveWirePrefab);
-            dstManager.AddSharedComponentData(wireEntity,
-                flip
-                    ? dstManager.GetSharedComponentData<RenderMesh>(activeWirePrefabEntity)
-                    : dstManager.GetSharedComponentData<RenderMesh>(inactiveWirePrefabEntity));
-            flip = !flip;
+            // Store the wire's palette of materials in a separate shared component
+            var wireMaterials = new WireMaterials(wireAuthoring.offMaterial, wireAuthoring.onMaterial);
+            dstManager.AddSharedComponentData(wireEntity, wireMaterials);
+            // Copy & modify the gate's RenderMesh to reference the correct mesh/material.
+            var baseRenderMesh = dstManager.GetSharedComponentData<RenderMesh>(gateEntity);
+            baseRenderMesh.mesh = wirePrefab.GetComponent<MeshFilter>().sharedMesh;
+            baseRenderMesh.material = wireMaterials.OffMaterial;
+            dstManager.AddSharedComponentData(wireEntity, baseRenderMesh);
 
             dstManager.SetComponentData(wireEntity, new Translation
             {
                 Value = wireStartPos,
             });
 
-            var wireScale = activeWirePrefab.transform.localScale;
+            var wireScale = wirePrefab.transform.localScale;
             wireScale.y = Vector3.Distance(wireStartPos, wireEndPos);
             dstManager.SetComponentData(wireEntity, new NonUniformScale
             {
@@ -128,6 +128,11 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             dstManager.SetComponentData(wireEntity, new Rotation
             {
                 Value = quaternion.RotateZ(wireAngle),
+            });
+
+            dstManager.SetComponentData(wireEntity, new WireInput
+            {
+                InputEntity = conversionSystem.TryGetPrimaryEntity(input.gameObject),
             });
         }
     }

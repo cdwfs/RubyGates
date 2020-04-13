@@ -1,5 +1,7 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 
 public enum GateType
 {
@@ -40,6 +42,28 @@ public struct GateTypeComponent : IComponentData
 public struct GateDagDepth : ISharedComponentData
 {
     public int Value;
+}
+
+public struct WireInput : IComponentData
+{
+    public Entity InputEntity;
+}
+
+public struct WireMaterials : ISharedComponentData, IEquatable<WireMaterials> {
+    public WireMaterials(in Material offMaterial, in Material onMaterial)
+    {
+        OffMaterial = offMaterial;
+        OnMaterial = onMaterial;
+    }
+    public Material OffMaterial;
+    public Material OnMaterial;
+
+    public bool Equals(WireMaterials other) {
+        return OffMaterial == other.OffMaterial && OnMaterial == other.OnMaterial;
+    }
+    public override int GetHashCode() {
+        return OnMaterial.GetHashCode() ^ OffMaterial.GetHashCode();
+    }
 }
 
 public struct ClickableGate : IComponentData
