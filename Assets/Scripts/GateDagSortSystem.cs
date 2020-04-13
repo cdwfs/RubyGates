@@ -33,6 +33,8 @@ public class GateDagSortSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        Dependency.Complete(); // TODO: is this redundant?
+
         // Retrieve an array of all the gate nodes and their inputs
         var gateEntities = _gateQuery.ToEntityArray(Allocator.TempJob);
 
