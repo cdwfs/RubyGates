@@ -21,6 +21,7 @@ public class HandleInputSystem : SystemBase
             {
                 if (math.all(clickPos > clickable.RectMin) && math.all(clickPos < clickable.RectMax))
                 {
+                    output.PrevValue = output.Value;
                     output.Value = 1 - output.Value;
                 }
             }).ScheduleParallel();

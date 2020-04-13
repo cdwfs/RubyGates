@@ -20,6 +20,8 @@ public struct DagIsStale : IComponentData
 public struct GateOutput : IComponentData
 {
     public int Value;
+    public int PrevValue;
+    public bool Changed => Value != PrevValue;
 }
 
 // A buffer of the gate entities (0+) whose outputs feed into this gate.
