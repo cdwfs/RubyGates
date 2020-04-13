@@ -6,6 +6,7 @@ public class GatePropagateSystem : SystemBase
     protected override void OnUpdate()
     {
         Entities
+            .WithName("GatePropagateSystem")
             .ForEach((ref GateOutput output, in DynamicBuffer<GateInput> inputs, in GateTypeComponent gateType) =>
             {
                 //output.Value += 1;

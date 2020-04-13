@@ -16,6 +16,7 @@ public class HandleInputSystem : SystemBase
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Entities
+            .WithName("HandleInputSystem")
             .ForEach((ref GateOutput output, in ClickableGate clickable, in GateTypeComponent gateType) =>
             {
                 if (math.all(clickPos > clickable.RectMin) && math.all(clickPos < clickable.RectMax))
