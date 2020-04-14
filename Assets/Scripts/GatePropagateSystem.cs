@@ -7,7 +7,7 @@ public class GatePropagateSystem : SystemBase
     {
         Entities
             .WithName("GatePropagateSystem")
-            .ForEach((ref GateOutput output, in DynamicBuffer<GateInput> inputs, in GateTypeComponent gateType) =>
+            .ForEach((ref NodeOutput output, in DynamicBuffer<NodeInput> inputs, in GateInfo gateInfo) =>
             {
                 //output.Value += 1;
             }).ScheduleParallel();

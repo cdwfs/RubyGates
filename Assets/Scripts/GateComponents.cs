@@ -9,7 +9,6 @@ public enum GateType
     Or = 2,
     Xor = 3,
     Not = 4,
-    Button
 }
 
 // Singleton tag component whose presence indicates that the node DAG needs to be re-sorted.
@@ -18,28 +17,28 @@ public struct DagIsStale : IComponentData
 
 }
 
-// A gate's current output value (0 or 1)
-public struct GateOutput : IComponentData
+// A node's current output value (0 or 1)
+public struct NodeOutput : IComponentData
 {
     public int Value;
     public int PrevValue;
     public bool Changed => Value != PrevValue;
 }
 
-// A buffer of the gate entities (0+) whose outputs feed into this gate.
-public struct GateInput : IBufferElementData
+// A buffer of the node entities (0+) whose outputs feed into this node.
+public struct NodeInput : IBufferElementData
 {
     public Entity InputEntity;
 }
 
 // TODO(cort): this could be a shared component if we wanted to process each gate type separately
-public struct GateTypeComponent : IComponentData
+public struct GateInfo : IComponentData
 {
-    public GateType Value;
+    public GateType Type;
 }
 
-// The gates are topologically sorted and processed according to their depth.
-public struct GateDagDepth : ISharedComponentData
+// The nodes are topologically sorted and processed according to their depth.
+public struct DagDepth : ISharedComponentData
 {
     public int Value;
 }
@@ -66,7 +65,7 @@ public struct WireMaterials : ISharedComponentData, IEquatable<WireMaterials> {
     }
 }
 
-public struct ClickableGate : IComponentData
+public struct ClickableNode : IComponentData
 {
     public float2 RectMin;
     public float2 RectMax;

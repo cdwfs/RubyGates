@@ -10,18 +10,19 @@ using UnityEngine;
 public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
 {
     public GateType gateType;
-    public GateNodeAuthoring[] inputs;
-    public Transform inputAttachTransform;
-    public Transform outputAttachTransform;
+    public NodeAttachPoints[] inputs;
     public GameObject wirePrefab;
 
     private void OnDrawGizmos()
     {
-        // Draw lines from this node's output attach points to this node's input attach point.
+        // Draw lines from this node's inputs' output attach points to this node's input attach point.
         Gizmos.color = Color.yellow;
+        var inputAttachPoint = GetComponent<NodeAttachPoints>().inputAttachTransform.position;
         foreach (var input in inputs)
         {
-            Gizmos.DrawLine(input.outputAttachTransform.position, inputAttachTransform.position);
+            Gizmos.DrawLine(
+                input.outputAttachTransform.position,
+                inputAttachPoint);
         }
 
         // Little tip on each line
@@ -29,8 +30,8 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
         foreach (var input in inputs)
         {
             Gizmos.DrawLine(
-                Vector3.Lerp(input.outputAttachTransform.position, inputAttachTransform.position, 0.9f),
-                inputAttachTransform.position);
+                Vector3.Lerp(input.outputAttachTransform.position, inputAttachPoint, 0.9f),
+                inputAttachPoint);
         }
     }
 
@@ -43,51 +44,33 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
     {
         var gateComponentTypes = new List<ComponentType>
         {
-            typeof(GateOutput),
-            typeof(GateTypeComponent),
-            typeof(GateInput),
-            typeof(GateDagDepth),
+            typeof(GateInfo),
+            typeof(NodeInput),
+            typeof(NodeOutput),
+            typeof(DagDepth),
         };
-        // Gates with box colliders are clickable
-        var box = GetComponent<BoxCollider2D>();
-        if (box != null)
-        {
-            gateComponentTypes.Add(typeof(ClickableGate));
-        }
-
         dstManager.AddComponents(gateEntity, new ComponentTypes(gateComponentTypes.ToArray()));
 
-        if (box != null)
-        {
-            var bounds = box.bounds;
-            var boundsMin = bounds.min;
-            var boundsMax = bounds.max;
-            dstManager.SetComponentData(gateEntity, new ClickableGate
-            {
-                RectMin = new float2(boundsMin.x, boundsMin.y),
-                RectMax = new float2(boundsMax.x, boundsMax.y),
-            });
-        }
-
-        dstManager.SetComponentData(gateEntity, new GateTypeComponent {Value = gateType});
+        dstManager.SetComponentData(gateEntity, new GateInfo {Type = gateType});
 
         {
-            var inputsBuffer = dstManager.GetBuffer<GateInput>(gateEntity);
+            var inputsBuffer = dstManager.GetBuffer<NodeInput>(gateEntity);
             inputsBuffer.Capacity = inputs.Length;
             foreach (var input in inputs)
             {
                 // Store a reference to the input gate entity
-                inputsBuffer.Add(new GateInput
+                inputsBuffer.Add(new NodeInput
                     {InputEntity = conversionSystem.TryGetPrimaryEntity(input.gameObject)});
             }
         }
 
         var wireAuthoring = wirePrefab.GetComponent<WireAuthoring>();
+        var inputAttachPoint = GetComponent<NodeAttachPoints>().inputAttachTransform.position;
         foreach (var input in inputs)
         {
             // Create a linked entity for the wires leading from the input to this gate
             var wireStartPos = input.outputAttachTransform.position;
-            var wireEndPos = inputAttachTransform.position;
+            var wireEndPos = inputAttachPoint;
             // TODO(cort): conversionSystem.InstantiateAdditionalEntity() would be ideal here. Instead, copy what we need from the prefab.
             var wireEntity = conversionSystem.CreateAdditionalEntity(gameObject);
 #if UNITY_EDITOR

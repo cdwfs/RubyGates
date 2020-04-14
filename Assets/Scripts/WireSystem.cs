@@ -16,7 +16,7 @@ public class WireSystem : SystemBase
             .WithName("WireSystem")
             .ForEach((Entity wireEntity, in WireInput wireInput) =>
             {
-                var inputGateOutput = GetComponent<GateOutput>(wireInput.InputEntity);
+                var inputGateOutput = GetComponent<NodeOutput>(wireInput.InputEntity);
                 if (inputGateOutput.Changed)
                 {
                     changeQueueWriter.Enqueue(new MaterialChange {

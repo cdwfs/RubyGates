@@ -15,9 +15,10 @@ public class HandleInputSystem : SystemBase
         if (Camera.main == null)
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // TODO: currently only handles buttons. Switches will require additional components.
         Entities
             .WithName("HandleInputSystem")
-            .ForEach((ref GateOutput output, in ClickableGate clickable, in GateTypeComponent gateType) =>
+            .ForEach((ref NodeOutput output, in ClickableNode clickable) =>
             {
                 if (math.all(clickPos > clickable.RectMin) && math.all(clickPos < clickable.RectMax))
                 {
