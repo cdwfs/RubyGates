@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f0febfb8a1b764d8406200a11f382c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gateType: 0
+  gateType: 1
   inputs:
   - {fileID: 0}
   - {fileID: 0}
