@@ -26,6 +26,7 @@ public struct NodeOutput : IComponentData
 }
 
 // A buffer of the node entities (0+) whose outputs feed into this node.
+[InternalBufferCapacity(2)] // We never expect more than 2 inputs per node, right?
 public struct NodeInput : IBufferElementData
 {
     public Entity InputEntity;
