@@ -9,6 +9,7 @@ public enum GateType
     Or = 2,
     Xor = 3,
     Not = 4,
+    Sink = 5,
 }
 
 // Singleton tag component whose presence indicates that the node DAG needs to be re-sorted.
@@ -71,3 +72,26 @@ public struct ClickableNode : IComponentData
     public float2 RectMin;
     public float2 RectMax;
 }
+
+public struct SinkTag : IComponentData
+{
+    
+}
+
+public struct SinkMaterials : ISharedComponentData, IEquatable<SinkMaterials> {
+    public SinkMaterials(in Material offMaterial, in Material onMaterial)
+    {
+        OffMaterial = offMaterial;
+        OnMaterial = onMaterial;
+    }
+    public Material OffMaterial;
+    public Material OnMaterial;
+
+    public bool Equals(SinkMaterials other) {
+        return OffMaterial == other.OffMaterial && OnMaterial == other.OnMaterial;
+    }
+    public override int GetHashCode() {
+        return OnMaterial.GetHashCode() ^ OffMaterial.GetHashCode();
+    }
+}
+

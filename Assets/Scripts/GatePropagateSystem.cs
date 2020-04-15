@@ -36,6 +36,17 @@ public class GatePropagateSystem : SystemBase
                         case GateType.Not:
                             output.Value = 1 - nodeOutputs[inputs[0].InputEntity].Value;
                             break;
+                        case GateType.Sink:
+                            output.Value = 1;
+                            for(int i=0; i<inputs.Length; ++i)
+                            {
+                                if (nodeOutputs[inputs[i].InputEntity].Value == 0)
+                                {
+                                    output.Value = 0;
+                                    break;
+                                }
+                            }
+                            break;
                     }
                 }).ScheduleParallel(Dependency);
         }
