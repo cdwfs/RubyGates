@@ -13,7 +13,8 @@ public struct MaterialChange
     public int materialIndex;
 }
 
-[UpdateAfter(typeof(WireSystem))]
+[UpdateInGroup(typeof(PresentationSystemGroup))]
+[UpdateBefore(typeof(RenderMeshSystemV2))]
 public class ChangeMaterialSystem : SystemBase
 {
     private NativeQueue<MaterialChange> _changeQueue;
