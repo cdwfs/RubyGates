@@ -15,7 +15,7 @@ public class GatePropagateSystem : SystemBase
         {
             if (depth.Value == 0)
                 continue; // skip depth-zero nodes; they should all be buttons.
-            Entities
+            Dependency = Entities
                 .WithName("GatePropagateSystem")
                 .WithNativeDisableContainerSafetyRestriction(nodeOutputs) // DAG sort ensures each pass writes to different outputs than it reads
                 .WithSharedComponentFilter(depth)
@@ -37,7 +37,7 @@ public class GatePropagateSystem : SystemBase
                             output.Value = 1 - nodeOutputs[inputs[0].InputEntity].Value;
                             break;
                     }
-                }).ScheduleParallel();
+                }).ScheduleParallel(Dependency);
         }
     }
 }
