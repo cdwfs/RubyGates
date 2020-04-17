@@ -1,0 +1,19 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-80f35515e93e79e4690206486b27ea4b-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
+            "Target": 19,
+            "Configuration": 3,
+            "Pipeline": "GlobalObjectId_V1-1-e14aeb54db1ebab49b889f8c74aa0f24-93214019566545601-0",
+            "ExcludedAssemblies": [
+            ]
+        },
+        {
+            "$type": "Unity.Build.Common.OutputBuildDirectory, Unity.Build.Common",
+            "OutputDirectory": "Build-Win64"
+        }
+    ]
+}

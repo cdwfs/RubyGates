@@ -1,0 +1,28 @@
+{
+    "Dependencies": [
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
+            "ProductName": "RubyGates",
+            "CompanyName": "Dangerware"
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build.Common",
+            "$version": 1,
+            "BuildCurrentScene": false,
+            "SceneInfos": [
+                {
+                    "Scene": "GlobalObjectId_V1-1-2cda990e2423bbf4892e6590ba056729-102900000-0",
+                    "AutoLoad": true
+                }
+            ]
+        },
+        {
+            "$type": "Unity.Build.Classic.ClassicScriptingSettings, Unity.Build.Classic",
+            "ScriptingBackend": 0,
+            "Il2CppCompilerConfiguration": 1,
+            "UseIncrementalGC": false
+        }
+    ]
+}
