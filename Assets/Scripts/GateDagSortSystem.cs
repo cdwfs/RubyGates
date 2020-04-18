@@ -11,7 +11,6 @@ public class GateDagSortSystem : SystemBase
 
     protected override void OnCreate()
     {
-        // TODO: is this supposed to be called in OnCreate or OnUpdate?
         RequireSingletonForUpdate<DagIsStale>();
 
         // Buttons don't have GateInput. The final node likely won't have an output. Both should be included in the sort.

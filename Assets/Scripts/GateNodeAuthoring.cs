@@ -96,6 +96,7 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             baseRenderMesh.material = wireAuthoring.offMaterial;
             dstManager.AddSharedComponentData(wireEntity, baseRenderMesh);
 
+            // TODO(https://github.com/cdwfs/RubyGates/issues/9): pre-bake the LocalToWorld and add the Static tag
             dstManager.SetComponentData(wireEntity, new Translation
             {
                 Value = wireStartPos,

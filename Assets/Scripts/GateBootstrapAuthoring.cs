@@ -7,7 +7,7 @@ public class GateBootstrapAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        // TODO: can I do this on subscene load?
+        // TODO: should this happen on Scene load?
         dstManager.AddComponent<DagIsStale>(entity);
     }
 }

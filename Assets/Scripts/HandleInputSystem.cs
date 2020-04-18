@@ -18,7 +18,7 @@ public class HandleInputSystem : SystemBase
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
-        // TODO: currently only handles buttons. Switches will require additional components.
+        // TODO(https://github.com/cdwfs/RubyGates/issues/4): currently only handles buttons. Switches will require additional components.
         var job = Entities
             .WithName("HandleInputSystem")
             .ForEach((Entity buttonEntity, int entityInQueryIndex, ref NodeOutput output, in ClickableNode clickable) =>
