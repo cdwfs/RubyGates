@@ -4,22 +4,28 @@ using Unity.Entities;
 [UpdateAfter(typeof(HandleInputSystem))]
 public class GatePropagateSystem : SystemBase
 {
+    private BeginInitializationEntityCommandBufferSystem _beginInitEcbSystem;
+    protected override void OnCreate() {
+        _beginInitEcbSystem = World.GetExistingSystem<BeginInitializationEntityCommandBufferSystem>();
+    }
     protected override void OnUpdate()
     {
         var nodeOutputs = GetComponentDataFromEntity<NodeOutput>(true);
 
         var validNodeDepths = new List<DagDepth>();
         EntityManager.GetAllUniqueSharedComponentData(validNodeDepths);
-        
+
+        var ecb = _beginInitEcbSystem.CreateCommandBuffer().ToConcurrent();
         foreach(var depth in validNodeDepths)
         {
             if (depth.Value == 0)
                 continue; // skip depth-zero nodes; they should all be buttons.
-            Dependency = Entities
+            var job = Entities
                 .WithName("GatePropagateSystem")
                 .WithNativeDisableContainerSafetyRestriction(nodeOutputs) // DAG sort ensures each pass writes to different outputs than it reads
                 .WithSharedComponentFilter(depth)
-                .ForEach((ref NodeOutput output, in DynamicBuffer<NodeInput> inputs, in GateInfo gateInfo) =>
+                .ForEach((Entity nodeEntity, int entityInQueryIndex, ref NodeOutput output,
+                    in DynamicBuffer<NodeInput> inputs, in GateInfo gateInfo) =>
                 {
                     output.PrevValue = output.Value;
                     switch (gateInfo.Type)
@@ -46,9 +52,16 @@ public class GatePropagateSystem : SystemBase
                                     break;
                                 }
                             }
+                            // Add the tag that begins the "end of level" flow
+                            if (output.Value == 1 && output.Changed)
+                            {
+                                ecb.AddComponent<VictoryTag>(entityInQueryIndex, nodeEntity);
+                            }
                             break;
                     }
                 }).ScheduleParallel(Dependency);
+            _beginInitEcbSystem.AddJobHandleForProducer(job);
+            Dependency = job;
         }
     }
 }

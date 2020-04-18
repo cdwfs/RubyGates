@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public struct SinkTag : IComponentData {
+public struct VictoryTag : IComponentData {
 }
 
 [DisallowMultipleComponent]
@@ -14,7 +14,6 @@ public class SinkAuthoring : MonoBehaviour, IConvertGameObjectToEntity
     public void Convert(Entity sinkEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         dstManager.AddComponents(sinkEntity, new ComponentTypes(new ComponentType[] {
-            typeof(SinkTag),
             typeof(MaterialPalette),
         }));
         dstManager.SetComponentData(sinkEntity, new MaterialPalette(new[] {
