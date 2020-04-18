@@ -437,6 +437,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bit3
       objectReference: {fileID: 0}
+    - target: {fileID: 6550397082839664143, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
+      propertyPath: initiallyOn
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
 --- !u!114 &1878943516 stripped

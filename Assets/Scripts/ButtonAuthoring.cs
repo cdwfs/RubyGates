@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Rendering;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
 public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
+    public bool initiallyOn;
     public Material offMaterial;
     public Material onMaterial;
 
@@ -35,5 +37,16 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
             offMaterial,
             onMaterial,
         }));
+
+        if (initiallyOn)
+        {
+            // Set initial NodeOutput
+            dstManager.SetComponentData(buttonEntity, new NodeOutput {Value = 1});
+            // Override default material
+            var renderMesh = dstManager.GetSharedComponentData<RenderMesh>(buttonEntity);
+            renderMesh.material = onMaterial;
+            dstManager.SetSharedComponentData(buttonEntity, renderMesh);
+        }
+ 
     }
 }
