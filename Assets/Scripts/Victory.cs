@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DisallowMultipleComponent]
 public class Victory : MonoBehaviour
 {
-    public int nextSceneIndex;
+    public string nextLevelName;
 
     private ParticleSystem _particles;
     // Start is called before the first frame update
@@ -22,6 +23,6 @@ public class Victory : MonoBehaviour
     IEnumerator VictoryCoroutine() {
         _particles.Play();
         yield return new WaitForSeconds(_particles.main.duration + 2.0f);
-        SceneManager.LoadScene(nextSceneIndex);
+        SceneManager.LoadScene(nextLevelName);
     }
 }
