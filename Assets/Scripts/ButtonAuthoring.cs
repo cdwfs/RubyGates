@@ -7,6 +7,9 @@ using UnityEngine;
 [RequiresEntityConversion]
 public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
+    public Material offMaterial;
+    public Material onMaterial;
+
     public void Convert(Entity buttonEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         var componentTypes = new List<ComponentType>
@@ -14,6 +17,7 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
             typeof(ClickableNode),
             typeof(NodeOutput),
             typeof(DagDepth),
+            typeof(MaterialPalette),
         };
         dstManager.AddComponents(buttonEntity, new ComponentTypes(componentTypes.ToArray()));
 
@@ -27,5 +31,9 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
             RectMax = new float2(boundsMax.x, boundsMax.y),
         });
 
+        dstManager.SetComponentData(buttonEntity, new MaterialPalette(new[] {
+            offMaterial,
+            onMaterial,
+        }));
     }
 }
