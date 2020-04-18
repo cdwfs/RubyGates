@@ -3,14 +3,14 @@
 [UpdateAfter(typeof(GatePropagateSystem))]
 public class WireSystem : SystemBase
 {
-    BeginPresentationEntityCommandBufferSystem beginPresEcbSystem;
+    BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
     protected override void OnCreate() {
-        beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
+        _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
 
     protected override void OnUpdate()
     {
-        var ecb = beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         var job = Entities
             .WithName("WireSystem")
             .ForEach((Entity wireEntity, int entityInQueryIndex, in WireInput wireInput) =>
@@ -24,7 +24,7 @@ public class WireSystem : SystemBase
                     });
                 }
             }).ScheduleParallel(Dependency);
-        beginPresEcbSystem.AddJobHandleForProducer(job);
+        _beginPresEcbSystem.AddJobHandleForProducer(job);
         Dependency = job;
     }
 }

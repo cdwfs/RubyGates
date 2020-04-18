@@ -26,17 +26,16 @@ public struct MaterialChange : IComponentData
 [UpdateBefore(typeof(RenderMeshSystemV2))]
 public class ChangeMaterialSystem : SystemBase
 {
-    EntityQuery materialChangeQuery;
+    EntityQuery _materialChangeQuery;
     protected override void OnCreate() {
-        materialChangeQuery = GetEntityQuery(ComponentType.ReadOnly<MaterialChange>());
+        _materialChangeQuery = GetEntityQuery(ComponentType.ReadOnly<MaterialChange>());
     }
     protected override void OnUpdate()
     {
-        // Must be main-thread, non-bursted, allow structural changes...all the slow things.
         Entities
             .WithName("ChangeMaterialSystem")
-            .WithoutBurst()
-            .WithStructuralChanges()
+            .WithoutBurst() // Manipulates managed components
+            .WithStructuralChanges() // Calls EntityManager.GetSharedComponentData and .SetSharedComponentData()
             .ForEach((Entity entity, in MaterialChange change, in MaterialPalette palette) => {
                 var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(change.entity);
                 Assert.IsTrue(change.materialIndex >= 0 || change.materialIndex < palette.Materials.Length);
@@ -44,6 +43,6 @@ public class ChangeMaterialSystem : SystemBase
                 EntityManager.SetSharedComponentData(change.entity, renderMesh);
             }).Run();
         // Remove change request components
-        EntityManager.RemoveComponent<MaterialChange>(materialChangeQuery);
+        EntityManager.RemoveComponent<MaterialChange>(_materialChangeQuery);
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class HandleInputSystem : SystemBase
 {
-    BeginPresentationEntityCommandBufferSystem beginPresEcbSystem;
+    BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
     protected override void OnCreate() {
-        beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
+        _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
 
     protected override void OnUpdate()
@@ -17,7 +17,7 @@ public class HandleInputSystem : SystemBase
         if (Camera.main == null)
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var ecb = beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         // TODO: currently only handles buttons. Switches will require additional components.
         var job = Entities
             .WithName("HandleInputSystem")
@@ -34,7 +34,7 @@ public class HandleInputSystem : SystemBase
                     });
                 }
             }).ScheduleParallel(Dependency);
-        beginPresEcbSystem.AddJobHandleForProducer(job);
+        _beginPresEcbSystem.AddJobHandleForProducer(job);
         Dependency = job;
     }
 }
