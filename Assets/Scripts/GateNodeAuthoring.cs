@@ -82,15 +82,18 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
                 typeof(Translation),
                 typeof(Rotation),
                 typeof(NonUniformScale),
+                typeof(MaterialPalette),
                 typeof(WireInput)}));
 
             // Store the wire's palette of materials in a separate shared component
-            var wireMaterials = new WireMaterials(wireAuthoring.offMaterial, wireAuthoring.onMaterial);
-            dstManager.AddSharedComponentData(wireEntity, wireMaterials);
+            dstManager.SetComponentData(wireEntity, new MaterialPalette(new[] {
+                wireAuthoring.offMaterial,
+                wireAuthoring.onMaterial,
+            }));
             // Copy & modify the gate's RenderMesh to reference the correct mesh/material.
             var baseRenderMesh = dstManager.GetSharedComponentData<RenderMesh>(gateEntity);
             baseRenderMesh.mesh = wirePrefab.GetComponent<MeshFilter>().sharedMesh;
-            baseRenderMesh.material = wireMaterials.OffMaterial;
+            baseRenderMesh.material = wireAuthoring.offMaterial;
             dstManager.AddSharedComponentData(wireEntity, baseRenderMesh);
 
             dstManager.SetComponentData(wireEntity, new Translation

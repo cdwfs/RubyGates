@@ -1,23 +1,25 @@
-﻿using TMPro;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Rendering;
+﻿using Unity.Entities;
 using UnityEngine;
 
 [UpdateAfter(typeof(GatePropagateSystem))]
 public class SinkSystem : SystemBase
 {
+    BeginPresentationEntityCommandBufferSystem beginPresEcbSystem;
+    protected override void OnCreate() {
+        beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
+    }
+
     protected override void OnUpdate()
     {
         // Kinda wasteful to go find these every frame, but...enh, the system only runs once/frame
         var po = GameObject.Find("VictoryParticles");
         var particles = po.GetComponent<ParticleSystem>();
-        
-        // Has to be main thread & non-bursted due to managed component manipulation & structural changes.
+
+        var ecb = beginPresEcbSystem.CreateCommandBuffer();
+        // Has to be main thread & non-bursted due to managed component manipulation.
         Entities
             .WithName("SinkSystem")
             .WithoutBurst()
-            .WithStructuralChanges()
             .WithAll<SinkTag>()
             .ForEach((Entity sinkEntity, in NodeOutput output) =>
             {
@@ -28,12 +30,12 @@ public class SinkSystem : SystemBase
                     // Spew particles
                     if (particles != null)
                         particles.Play();
-                    
-                    // Change material
-                    var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(sinkEntity);
-                    var sinkMaterials = EntityManager.GetSharedComponentData<SinkMaterials>(sinkEntity);
-                    renderMesh.material = sinkMaterials.OnMaterial;
-                    EntityManager.SetSharedComponentData<RenderMesh>(sinkEntity, renderMesh);
+
+                    // Enqueue material change request
+                    ecb.AddComponent(sinkEntity, new MaterialChange {
+                        entity = sinkEntity,
+                        materialIndex = 1,
+                    });
                 }
             }).Run();
     }

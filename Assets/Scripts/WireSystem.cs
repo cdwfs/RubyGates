@@ -3,29 +3,28 @@
 [UpdateAfter(typeof(GatePropagateSystem))]
 public class WireSystem : SystemBase
 {
-    ChangeMaterialSystem changeMaterialSys;
-    protected override void OnCreate()
-    {
-        changeMaterialSys = World.GetExistingSystem<ChangeMaterialSystem>();
+    BeginPresentationEntityCommandBufferSystem beginPresEcbSystem;
+    protected override void OnCreate() {
+        beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
 
     protected override void OnUpdate()
     {
-        var changeQueueWriter = changeMaterialSys.ChangeQueueParallelWriter;
+        var ecb = beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         var job = Entities
             .WithName("WireSystem")
-            .ForEach((Entity wireEntity, in WireInput wireInput) =>
+            .ForEach((Entity wireEntity, int entityInQueryIndex, in WireInput wireInput) =>
             {
                 var inputGateOutput = GetComponent<NodeOutput>(wireInput.InputEntity);
                 if (inputGateOutput.Changed)
                 {
-                    changeQueueWriter.Enqueue(new MaterialChange {
+                    ecb.AddComponent(entityInQueryIndex, wireEntity, new MaterialChange {
                         entity = wireEntity,
                         materialIndex = inputGateOutput.Value,
                     });
                 }
             }).ScheduleParallel(Dependency);
-        changeMaterialSys.AddJobHandleForProducer(job);
+        beginPresEcbSystem.AddJobHandleForProducer(job);
         Dependency = job;
     }
 }

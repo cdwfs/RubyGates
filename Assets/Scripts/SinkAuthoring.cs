@@ -1,6 +1,9 @@
 ﻿using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
+
+
+public struct SinkTag : IComponentData {
+}
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
@@ -10,7 +13,13 @@ public class SinkAuthoring : MonoBehaviour, IConvertGameObjectToEntity
     public Material onMaterial;
     public void Convert(Entity sinkEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponent<SinkTag>(sinkEntity);
-        dstManager.AddSharedComponentData(sinkEntity, new SinkMaterials(offMaterial, onMaterial));
+        dstManager.AddComponents(sinkEntity, new ComponentTypes(new ComponentType[] {
+            typeof(SinkTag),
+            typeof(MaterialPalette),
+        }));
+        dstManager.SetComponentData(sinkEntity, new MaterialPalette(new[] {
+            offMaterial,
+            onMaterial,
+        }));
     }
 }

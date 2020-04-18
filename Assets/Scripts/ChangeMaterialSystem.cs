@@ -1,13 +1,22 @@
-﻿// This system implements a custom command-buffer-style feature for enqueueing material change
-// requests in parallel and playing them back on the main thread. Unlike an
-// EntityCommandBuffer, it is *not* deterministic.
-
+﻿using Unity.Assertions;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Rendering;
+using UnityEngine;
 
-public struct MaterialChange
+// TODO(cort): Managed components XP
+public class MaterialPalette : IComponentData {
+    public MaterialPalette() {
+        Materials = new Material[0];
+    }
+    public MaterialPalette(in Material[] materials) {
+        Materials = materials;
+    }
+    public Material[] Materials;
+}
+
+public struct MaterialChange : IComponentData
 {
     public Entity entity;
     public int materialIndex;
@@ -17,39 +26,24 @@ public struct MaterialChange
 [UpdateBefore(typeof(RenderMeshSystemV2))]
 public class ChangeMaterialSystem : SystemBase
 {
-    private NativeQueue<MaterialChange> _changeQueue;
-    public NativeQueue<MaterialChange>.ParallelWriter ChangeQueueParallelWriter => _changeQueue.AsParallelWriter();
-
-    private JobHandle _producerHandle;
-    public void AddJobHandleForProducer(JobHandle handle)
-    {
-        _producerHandle = JobHandle.CombineDependencies(_producerHandle, handle);
-    }
-
+    EntityQuery materialChangeQuery;
     protected override void OnCreate() {
-        _changeQueue = new NativeQueue<MaterialChange>(Allocator.Persistent);
+        materialChangeQuery = GetEntityQuery(ComponentType.ReadOnly<MaterialChange>());
     }
-
-    protected override void OnDestroy() {
-        _producerHandle.Complete();
-        _changeQueue.Dispose();
-    }
-
     protected override void OnUpdate()
     {
-        _producerHandle.Complete();
-        _producerHandle = new JobHandle();
-
-        while (_changeQueue.TryDequeue(out MaterialChange change))
-        {
-            var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(change.entity);
-            if (EntityManager.HasComponent<WireMaterials>(change.entity)) {
-                var wireMaterials = EntityManager.GetSharedComponentData<WireMaterials>(change.entity);
-                renderMesh.material = (change.materialIndex == 0)
-                    ? wireMaterials.OffMaterial
-                    : wireMaterials.OnMaterial;
-            }
-            EntityManager.SetSharedComponentData(change.entity, renderMesh);
-        }
+        // Must be main-thread, non-bursted, allow structural changes...all the slow things.
+        Entities
+            .WithName("ChangeMaterialSystem")
+            .WithoutBurst()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, in MaterialChange change, in MaterialPalette palette) => {
+                var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(change.entity);
+                Assert.IsTrue(change.materialIndex >= 0 || change.materialIndex < palette.Materials.Length);
+                renderMesh.material = palette.Materials[change.materialIndex];
+                EntityManager.SetSharedComponentData(change.entity, renderMesh);
+            }).Run();
+        // Remove change request components
+        EntityManager.RemoveComponent<MaterialChange>(materialChangeQuery);
     }
 }
