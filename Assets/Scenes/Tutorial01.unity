@@ -832,9 +832,9 @@ PrefabInstance:
       value: Victory
       objectReference: {fileID: 0}
     - target: {fileID: 8071577303801510103, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
-      propertyPath: nextLevelName
-      value: Tutorial02
-      objectReference: {fileID: 0}
+      propertyPath: victoryPanel
+      value: 
+      objectReference: {fileID: 2065339987}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
 --- !u!1 &1885433674
@@ -889,3 +889,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!222 &2065339987 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 3588141763266859945, guid: 2643a6d9012d0db4cb374583d157ac59, type: 3}
+  m_PrefabInstance: {fileID: 832198736}
+  m_PrefabAsset: {fileID: 0}

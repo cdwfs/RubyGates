@@ -4905,5 +4905,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d737896983f4624f860acc925eee722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevelName: 
-  levelOrder: {fileID: 11400000, guid: a6edd43369b2a9545a31331e3ab9cc77, type: 2}
+  victoryPanel: {fileID: 0}

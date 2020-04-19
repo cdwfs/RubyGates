@@ -337,6 +337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2643a6d9012d0db4cb374583d157ac59, type: 3}
+--- !u!222 &190834303 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 3588141763266859945, guid: 2643a6d9012d0db4cb374583d157ac59, type: 3}
+  m_PrefabInstance: {fileID: 190834302}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &233425626
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +580,10 @@ PrefabInstance:
       propertyPath: nextLevelName
       value: TutorialAnd
       objectReference: {fileID: 0}
+    - target: {fileID: 8071577303801510103, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
+      propertyPath: victoryPanel
+      value: 
+      objectReference: {fileID: 190834303}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
 --- !u!1 &1546661446
@@ -792,7 +801,7 @@ MonoBehaviour:
     at once.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

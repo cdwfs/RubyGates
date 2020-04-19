@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: nextLevelName
       value: Level01
       objectReference: {fileID: 0}
+    - target: {fileID: 8071577303801510103, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
+      propertyPath: victoryPanel
+      value: 
+      objectReference: {fileID: 1878264895}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37c11e0a46ad85f4a96f5708619338f2, type: 3}
 --- !u!1001 &1627713794
@@ -574,3 +578,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2643a6d9012d0db4cb374583d157ac59, type: 3}
+--- !u!222 &1878264895 stripped
+CanvasRenderer:
+  m_CorrespondingSourceObject: {fileID: 3588141763266859945, guid: 2643a6d9012d0db4cb374583d157ac59, type: 3}
+  m_PrefabInstance: {fileID: 1878264894}
+  m_PrefabAsset: {fileID: 0}
