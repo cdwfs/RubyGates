@@ -12,6 +12,8 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
     public GateType gateType;
     public NodeAttachPoints[] inputs;
     public GameObject wirePrefab;
+    public Material offMaterial;
+    public Material onMaterial;
 
     private void OnDrawGizmos()
     {
@@ -48,11 +50,17 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             typeof(NodeInput),
             typeof(NodeOutput),
             typeof(DagDepth),
+            typeof(MaterialPalette),
         };
         dstManager.AddComponents(gateEntity, new ComponentTypes(gateComponentTypes.ToArray()));
 
         dstManager.SetComponentData(gateEntity, new GateInfo {Type = gateType});
 
+        dstManager.SetComponentData(gateEntity, new MaterialPalette(new[] {
+            offMaterial,
+            onMaterial,
+        }));
+        
         {
             var inputsBuffer = dstManager.GetBuffer<NodeInput>(gateEntity);
             inputsBuffer.Capacity = inputs.Length;

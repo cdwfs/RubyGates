@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BitOn
-  m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: AndOn
+  m_Shader: {fileID: 10751, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 1
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3092ccb617dd7fc4e84bc13f9ec85bf0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 88a0ec41b11c4b943a91da5f08718a13, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -69,7 +69,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _Cull: 2
-    - _Cutoff: 0
+    - _Cutoff: 0.9
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnableExternalAlpha: 0

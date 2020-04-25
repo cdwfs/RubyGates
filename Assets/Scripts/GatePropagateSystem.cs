@@ -4,9 +4,9 @@ using Unity.Entities;
 [UpdateAfter(typeof(HandleInputSystem))]
 public class GatePropagateSystem : SystemBase
 {
-    private BeginInitializationEntityCommandBufferSystem _beginInitEcbSystem;
+    private BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
     protected override void OnCreate() {
-        _beginInitEcbSystem = World.GetExistingSystem<BeginInitializationEntityCommandBufferSystem>();
+        _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
     protected override void OnUpdate()
     {
@@ -15,7 +15,7 @@ public class GatePropagateSystem : SystemBase
         var validNodeDepths = new List<DagDepth>();
         EntityManager.GetAllUniqueSharedComponentData(validNodeDepths);
 
-        var ecb = _beginInitEcbSystem.CreateCommandBuffer().ToConcurrent();
+        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         foreach(var depth in validNodeDepths)
         {
             if (depth.Value == 0)
@@ -59,8 +59,17 @@ public class GatePropagateSystem : SystemBase
                             }
                             break;
                     }
+                    // Change material based on node state
+                    if (output.Changed)
+                    {
+                        ecb.AddComponent(entityInQueryIndex, nodeEntity, new MaterialChange
+                        {
+                            entity = nodeEntity,
+                            materialIndex = output.Value,
+                        });
+                    }
                 }).ScheduleParallel(Dependency);
-            _beginInitEcbSystem.AddJobHandleForProducer(job);
+            _beginPresEcbSystem.AddJobHandleForProducer(job);
             Dependency = job;
         }
     }

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5084055463453567525}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.046, y: 0.412, z: 0}
+  m_LocalPosition: {x: 0.001, y: 0.416, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415995224954964815}
@@ -83,6 +83,8 @@ MonoBehaviour:
   inputs:
   - {fileID: 0}
   wirePrefab: {fileID: 1653162229743286493, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
+  offMaterial: {fileID: 2100000, guid: c2fff1ce1a145e0429c23dce0a58c8dc, type: 2}
+  onMaterial: {fileID: 2100000, guid: 25fc6eb658ec38b4f8da80d4940b3d4a, type: 2}
 --- !u!114 &-3612088749237096634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +118,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25fc6eb658ec38b4f8da80d4940b3d4a, type: 2}
+  - {fileID: 2100000, guid: c2fff1ce1a145e0429c23dce0a58c8dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

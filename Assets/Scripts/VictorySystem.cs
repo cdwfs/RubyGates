@@ -27,12 +27,6 @@ public class VictorySystem : SystemBase
                 // Disable mouse interaction with nodes once victory is detected
                 ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
 
-                // Enqueue material change request
-                ecb.AddComponent(sinkEntity, new MaterialChange {
-                    entity = sinkEntity,
-                    materialIndex = 1,
-                });
-
                 // Victory!
                 var victory = GameObject.Find("Victory").GetComponent<Victory>();
                 Assert.IsNotNull(victory);
