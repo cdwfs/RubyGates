@@ -1,22 +1,33 @@
 ﻿using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class HandleInputSystem : SystemBase
 {
     BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
+    private UIManager _uiManager;
+    
     protected override void OnCreate() {
         _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
 
     protected override void OnUpdate()
     {
+        // If the UI system has a modal dialog up, ignore in-game input
+        if (_uiManager == null)
+            _uiManager = GameObject.FindObjectOfType<UIManager>();
+        if (_uiManager != null && _uiManager.IsModalDialogActive)
+        {
+            return;
+        }
+        
         if (!Input.GetMouseButtonDown(0))
             return;
+        
         if (Camera.main == null)
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
         var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         // TODO(https://github.com/cdwfs/RubyGates/issues/4): currently only handles buttons. Switches will require additional components.
         var job = Entities

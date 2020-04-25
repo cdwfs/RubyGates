@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.Rendering;
+﻿using Unity.Assertions;
+using UnityEngine;
 
 [DisallowMultipleComponent]
 public class Victory : MonoBehaviour
 {
-    public CanvasRenderer victoryPanel;
     private ParticleSystem _particles;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +14,9 @@ public class Victory : MonoBehaviour
     public void DoVictoryDance()
     {
         _particles.Play();
-        victoryPanel.gameObject.SetActive(true);
+        
+        var uiMgr = GameObject.FindObjectOfType<UIManager>();
+        Assert.IsNotNull(uiMgr);
+        uiMgr.SetVictoryPanelActive(true);
     }
 }
