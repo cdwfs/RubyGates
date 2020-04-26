@@ -5,6 +5,9 @@
 ### Added
 * Added XOR gate type (including a tutorial level, and some cameos in existing levels)
 
+### Fixed
+* Adjusted OR gate artwork
+
 ## 2020-04-25-23:31:07
 
 ### Added
