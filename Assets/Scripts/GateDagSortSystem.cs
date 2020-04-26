@@ -111,8 +111,9 @@ public class GateDagSortSystem : SystemBase
             readyToSortIndices.RemoveAtSwapBack(0);
             Debug.Assert(nodeUnsortedInputCounts[indexToSort] == 0);
             // Decrement all its outputs
-            foreach (var outputIndex in nodesToSort[indexToSort].Outputs)
+            for(int iOutput=0; iOutput < nodesToSort[indexToSort].Outputs.Length; ++iOutput)
             {
+                int outputIndex = nodesToSort[indexToSort].Outputs[iOutput];
                 Debug.Assert(nodesToSort[outputIndex].Inputs.AsArray().Contains(indexToSort));
                 Debug.Assert(nodeUnsortedInputCounts[outputIndex] > 0);
                 nodeUnsortedInputCounts[outputIndex] -= 1;
