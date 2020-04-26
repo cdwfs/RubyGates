@@ -1,0 +1,34 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-80f35515e93e79e4690206486b27ea4b-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
+            "Target": 13,
+            "Configuration": 3,
+            "Pipeline": "GlobalObjectId_V1-1-e14aeb54db1ebab49b889f8c74aa0f24-93214019566545601-0",
+            "ExcludedAssemblies": [
+            ]
+        },
+        {
+            "$type": "Unity.Build.Common.OutputBuildDirectory, Unity.Build.Common",
+            "OutputDirectory": "Build-Android"
+        },
+        {
+            "$type": "Unity.Platforms.Android.Build.AndroidAPILevels, Unity.Platforms.Android.Build",
+            "MinAPILevel": 26,
+            "TargetAPILevel": 26
+        },
+        {
+            "$type": "Unity.Platforms.Android.Build.AndroidArchitectures, Unity.Platforms.Android.Build",
+            "Architectures": 3
+        },
+        {
+            "$type": "Unity.Build.Classic.ClassicScriptingSettings, Unity.Build.Classic",
+            "ScriptingBackend": 0,
+            "Il2CppCompilerConfiguration": 1,
+            "UseIncrementalGC": true
+        }
+    ]
+}
