@@ -18,6 +18,7 @@ MonoBehaviour:
   - TutorialAnd
   - TutorialOr
   - TutorialNot
+  - TutorialXor
   - Level01
   - Level02
   - Level03

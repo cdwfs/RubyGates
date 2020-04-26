@@ -1,5 +1,10 @@
 # RubyGates ChangeLog
 
+## Unreleased
+
+### Added
+* Added XOR gate type (including a tutorial level, and some cameos in existing levels)
+
 ## 2020-04-25-23:31:07
 
 ### Added
