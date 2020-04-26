@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Assertions;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -149,6 +150,15 @@ public class GateDagSortSystem : SystemBase
         nodeUnsortedInputCounts.Dispose();
         readyToSortIndices.Dispose();
         nodeDepths.Dispose();
+
+        // We generate/sort this array once during the DAG sort and store it for future updates.
+        // The trick is making sure it never becomes stale, or we'll propagate over the wrong depths.
+        // We clear it again during the victory dance to make sure.
+        var validDagDepths = World.GetExistingSystem<GatePropagateSystem>().ValidDagDepths;
+        Assert.AreEqual(0, validDagDepths.Count,
+            "Expected ValidDagDepths to be zero -- did somebody forget to clear it between levels?");
+        EntityManager.GetAllUniqueSharedComponentData(validDagDepths);
+        validDagDepths.Sort((x, y) => x.Value.CompareTo(y.Value));
 
         EntityManager.DestroyEntity(GetSingletonEntity<DagIsStale>());
     }

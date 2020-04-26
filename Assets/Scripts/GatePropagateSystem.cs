@@ -4,19 +4,19 @@ using Unity.Entities;
 [UpdateAfter(typeof(HandleInputSystem))]
 public class GatePropagateSystem : SystemBase
 {
+    public List<DagDepth> ValidDagDepths;
     private BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
-    protected override void OnCreate() {
+    protected override void OnCreate()
+    {
+        ValidDagDepths = new List<DagDepth>();
         _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
     protected override void OnUpdate()
     {
         var nodeOutputs = GetComponentDataFromEntity<NodeOutput>(true);
 
-        var validNodeDepths = new List<DagDepth>();
-        EntityManager.GetAllUniqueSharedComponentData(validNodeDepths);
-
         var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
-        foreach(var depth in validNodeDepths)
+        foreach(var depth in ValidDagDepths)
         {
             if (depth.Value == 0)
                 continue; // skip depth-zero nodes; they should all be buttons.
