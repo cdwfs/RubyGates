@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
+[UpdateBefore(typeof(HandleInputSystem))]
 public class GateDagSortSystem : SystemBase
 {
     private EntityQuery _nodeQuery;
