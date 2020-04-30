@@ -4,6 +4,8 @@
 
 A simple puzzle game about logic gates, built with [Unity](https://unity.com/) and [DOTS](https://unity.com/dots)
 
+![image](https://raw.githubusercontent.com/cdwfs/RubyGates/master/screenshot.png)
+
 ## Download
 
 See the [Releases](https://github.com/cdwfs/RubyGates/releases) page for latest builds. Or, load up the project in Unity (currently requires Unity 2020.1.0b7 or later).
