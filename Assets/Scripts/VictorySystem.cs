@@ -27,9 +27,6 @@ public class VictorySystem : SystemBase
                 // Disable mouse interaction with nodes once victory is detected
                 ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
                 
-                // Make sure we don't propagate over stale DAG depths
-                World.GetExistingSystem<GatePropagateSystem>().ValidDagDepths.Clear();
-
                 // Victory!
                 var victory = GameObject.Find("Victory").GetComponent<Victory>();
                 Assert.IsNotNull(victory);

@@ -40,6 +40,10 @@ public class GateDagSortSystem : SystemBase
     {
         Dependency.Complete(); // TODO: is this redundant?
 
+        // Make sure we don't propagate over stale DAG depths
+        var validDagDepths = World.GetExistingSystem<GatePropagateSystem>().ValidDagDepths;
+        validDagDepths.Clear();
+
         // Retrieve an array of all the node entities
         var nodeEntities = _nodeQuery.ToEntityArray(Allocator.TempJob);
 
@@ -154,7 +158,6 @@ public class GateDagSortSystem : SystemBase
         // We generate/sort this array once during the DAG sort and store it for future updates.
         // The trick is making sure it never becomes stale, or we'll propagate over the wrong depths.
         // We clear it again during the victory dance to make sure.
-        var validDagDepths = World.GetExistingSystem<GatePropagateSystem>().ValidDagDepths;
         Assert.AreEqual(0, validDagDepths.Count,
             "Expected ValidDagDepths to be zero -- did somebody forget to clear it between levels?");
         EntityManager.GetAllUniqueSharedComponentData(validDagDepths);
