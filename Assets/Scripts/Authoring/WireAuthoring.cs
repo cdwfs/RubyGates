@@ -1,10 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 
-public struct WireInput : IComponentData {
-    public Entity InputEntity;
-}
-
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
 public class WireAuthoring : MonoBehaviour, IConvertGameObjectToEntity

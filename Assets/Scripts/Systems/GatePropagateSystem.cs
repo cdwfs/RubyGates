@@ -1,6 +1,36 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
 
+public enum GateType
+{
+    And = 1,
+    Or = 2,
+    Xor = 3,
+    Not = 4,
+    Sink = 5,
+}
+
+// A node's current output value (0 or 1)
+public struct NodeOutput : IComponentData
+{
+    public int Value;
+    public int PrevValue;
+    public bool Changed => Value != PrevValue;
+}
+
+// A buffer of the node entities (0+) whose outputs feed into this node.
+[InternalBufferCapacity(2)] // We never expect more than 2 inputs per node, right?
+public struct NodeInput : IBufferElementData
+{
+    public Entity InputEntity;
+}
+
+// TODO(cort): this could be a shared component if we wanted to process each gate type separately
+public struct GateInfo : IComponentData
+{
+    public GateType Type;
+}
+
 [UpdateAfter(typeof(HandleInputSystem))]
 public class GatePropagateSystem : SystemBase
 {

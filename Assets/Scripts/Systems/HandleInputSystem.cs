@@ -2,6 +2,12 @@
 using Unity.Mathematics;
 using UnityEngine;
 
+public struct ClickableNode : IComponentData
+{
+    public float2 RectMin;
+    public float2 RectMax;
+}
+
 public class HandleInputSystem : SystemBase
 {
     BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;

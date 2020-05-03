@@ -6,6 +6,18 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
+// Singleton tag component whose presence indicates that the node DAG needs to be re-sorted.
+public struct DagIsStale : IComponentData
+{
+
+}
+
+// The nodes are topologically sorted and processed according to their depth.
+public struct DagDepth : ISharedComponentData
+{
+    public int Value;
+}
+
 [UpdateBefore(typeof(HandleInputSystem))]
 public class GateDagSortSystem : SystemBase
 {

@@ -15,7 +15,7 @@ public class Victory : MonoBehaviour
     {
         _particles.Play();
         
-        var uiMgr = GameObject.FindObjectOfType<UIManager>();
+        var uiMgr = FindObjectOfType<UIManager>();
         Assert.IsNotNull(uiMgr);
         uiMgr.SetVictoryPanelActive(true);
     }

@@ -2,6 +2,9 @@
 using Unity.Entities;
 using UnityEngine;
 
+public struct VictoryTag : IComponentData {
+}
+
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public class VictorySystem : SystemBase
 {

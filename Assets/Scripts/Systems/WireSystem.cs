@@ -1,5 +1,9 @@
 ﻿using Unity.Entities;
 
+public struct WireInput : IComponentData {
+    public Entity InputEntity;
+}
+
 [UpdateAfter(typeof(GatePropagateSystem))]
 public class WireSystem : SystemBase
 {

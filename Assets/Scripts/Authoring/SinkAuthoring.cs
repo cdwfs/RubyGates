@@ -2,9 +2,6 @@
 using UnityEngine;
 
 
-public struct VictoryTag : IComponentData {
-}
-
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
 public class SinkAuthoring : MonoBehaviour, IConvertGameObjectToEntity
