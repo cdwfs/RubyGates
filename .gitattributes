@@ -1,4 +1,5 @@
 *.unity text eol=lf
+*.asmdef text eol=lf
 *.meta text eol=lf
 *.prefab text eol=lf
 *.cs diff=csharp text eol=lf
