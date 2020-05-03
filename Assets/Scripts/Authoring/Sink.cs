@@ -4,7 +4,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
-public class SinkAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class Sink : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Material offMaterial;
     public Material onMaterial;

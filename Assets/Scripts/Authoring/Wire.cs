@@ -3,7 +3,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
-public class WireAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class Wire : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Material offMaterial;
     public Material onMaterial;

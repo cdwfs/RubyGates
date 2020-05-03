@@ -7,7 +7,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
-public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
+public class GateNode : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
 {
     public GateType gateType;
     public NodeAttachPoints[] inputs;
@@ -72,7 +72,7 @@ public class GateNodeAuthoring : MonoBehaviour, IConvertGameObjectToEntity, IDec
             }
         }
 
-        var wireAuthoring = wirePrefab.GetComponent<WireAuthoring>();
+        var wireAuthoring = wirePrefab.GetComponent<Wire>();
         var inputAttachPoint = GetComponent<NodeAttachPoints>().inputAttachTransform.position;
         foreach (var input in inputs)
         {

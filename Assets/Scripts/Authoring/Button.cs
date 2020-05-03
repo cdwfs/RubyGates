@@ -6,7 +6,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequiresEntityConversion]
-public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class Button : MonoBehaviour, IConvertGameObjectToEntity
 {
     public bool initiallyOn;
     public Material offMaterial;

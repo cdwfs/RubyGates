@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5415995224954964813}
   - component: {fileID: 5415995224954964812}
   - component: {fileID: 1640003872760244772}
-  - component: {fileID: -3093527694010872740}
   m_Layer: 0
   m_Name: Sink
   m_TagString: Untagged
@@ -130,20 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af892e4287c1f436baf5a5063049521a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3093527694010872740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415995224954964803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b061edbab0f00374ba1c7cea03a5c507, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offMaterial: {fileID: 2100000, guid: 5a0b2302042dd72479924541f02ef194, type: 2}
-  onMaterial: {fileID: 2100000, guid: f853210f6c412054daddd8373a1eaac8, type: 2}
 --- !u!1 &8198559979584020250
 GameObject:
   m_ObjectHideFlags: 0
