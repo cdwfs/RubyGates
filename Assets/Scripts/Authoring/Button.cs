@@ -9,8 +9,6 @@ using UnityEngine;
 public class Button : MonoBehaviour, IConvertGameObjectToEntity
 {
     public bool initiallyOn;
-    public Material offMaterial;
-    public Material onMaterial;
 
     public void Convert(Entity buttonEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
@@ -19,7 +17,6 @@ public class Button : MonoBehaviour, IConvertGameObjectToEntity
             typeof(ClickableNode),
             typeof(NodeOutput),
             typeof(DagDepth),
-            typeof(MaterialPalette),
         };
         dstManager.AddComponents(buttonEntity, new ComponentTypes(componentTypes.ToArray()));
 
@@ -33,18 +30,14 @@ public class Button : MonoBehaviour, IConvertGameObjectToEntity
             RectMax = new float2(boundsMax.x, boundsMax.y),
         });
 
-        dstManager.SetComponentData(buttonEntity, new MaterialPalette(new[] {
-            offMaterial,
-            onMaterial,
-        }));
-
         if (initiallyOn)
         {
             // Set initial NodeOutput
             dstManager.SetComponentData(buttonEntity, new NodeOutput {Value = 1});
             // Override default material
+            var matSwapper = GetComponent<MaterialSwapper>();
             var renderMesh = dstManager.GetSharedComponentData<RenderMesh>(buttonEntity);
-            renderMesh.material = onMaterial;
+            renderMesh.material = matSwapper.onMaterial;
             dstManager.SetSharedComponentData(buttonEntity, renderMesh);
         }
  

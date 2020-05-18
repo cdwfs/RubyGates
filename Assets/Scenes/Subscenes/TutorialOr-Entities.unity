@@ -250,6 +250,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8734741367950524989, guid: 88d73ca3ca78a804b8737e2a4f63002c, type: 3}
+      propertyPath: inputNodes.Array.data[0]
+      value: 
+      objectReference: {fileID: 634597297}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d73ca3ca78a804b8737e2a4f63002c, type: 3}
 --- !u!1001 &418070026
@@ -316,6 +320,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8229079433956100612, guid: 46a706656bd56a64f937de8ecb62357b, type: 3}
+      propertyPath: inputNodes.Array.data[0]
+      value: 
+      objectReference: {fileID: 58765493}
+    - target: {fileID: -8229079433956100612, guid: 46a706656bd56a64f937de8ecb62357b, type: 3}
+      propertyPath: inputNodes.Array.data[1]
+      value: 
+      objectReference: {fileID: 1129978174}
     - target: {fileID: 5415995224954964803, guid: 46a706656bd56a64f937de8ecb62357b, type: 3}
       propertyPath: m_Name
       value: OrGate

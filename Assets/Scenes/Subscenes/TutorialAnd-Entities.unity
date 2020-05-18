@@ -132,11 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.85
+      value: -2.14
       objectReference: {fileID: 0}
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.34
+      value: -1.21
       objectReference: {fileID: 0}
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.z
@@ -254,6 +254,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8734741367950524989, guid: f9df0bbb8d184f14bb5d1bc20b80cea0, type: 3}
+      propertyPath: inputNodes.Array.data[0]
+      value: 
+      objectReference: {fileID: 133113599}
+    - target: {fileID: 8734741367950524989, guid: f9df0bbb8d184f14bb5d1bc20b80cea0, type: 3}
+      propertyPath: inputNodes.Array.data[1]
+      value: 
+      objectReference: {fileID: 342563911}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9df0bbb8d184f14bb5d1bc20b80cea0, type: 3}
 --- !u!114 &289863874 stripped
@@ -276,11 +284,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.75
+      value: -1.09
       objectReference: {fileID: 0}
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.27
+      value: -1.21
       objectReference: {fileID: 0}
     - target: {fileID: 3313024315540426009, guid: 5d47f8d1f14df044c9d3776c1eb15b43, type: 3}
       propertyPath: m_LocalPosition.z
@@ -394,6 +402,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8734741367950524989, guid: 88d73ca3ca78a804b8737e2a4f63002c, type: 3}
+      propertyPath: inputNodes.Array.data[0]
+      value: 
+      objectReference: {fileID: 289863874}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d73ca3ca78a804b8737e2a4f63002c, type: 3}
 --- !u!1001 &1607919104

@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5161476222892442401}
-  - component: {fileID: 3602074624056038203}
   - component: {fileID: -3362325476739351387}
+  - component: {fileID: -5154150605288735054}
+  - component: {fileID: 3602074624056038203}
   - component: {fileID: 8888497982425822611}
   m_Layer: 0
   m_Name: Wire
@@ -33,14 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3602074624056038203
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653162229743286493}
-  m_Mesh: {fileID: 3480882948599511871, guid: 7a6975dfa5120174faf9bf826312922f, type: 3}
 --- !u!114 &-3362325476739351387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,8 +46,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dfaa5df1010334c8281a2581aa3fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5154150605288735054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653162229743286493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87680c50bd913643afaccca5f1fa3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   offMaterial: {fileID: 2100000, guid: 7f394a109f58a194fa6840bd09e3fc75, type: 2}
   onMaterial: {fileID: 2100000, guid: 78b5f0e0e6bec44419fbd1cc546fcde5, type: 2}
+--- !u!33 &3602074624056038203
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653162229743286493}
+  m_Mesh: {fileID: 3480882948599511871, guid: 7a6975dfa5120174faf9bf826312922f, type: 3}
 --- !u!23 &8888497982425822611
 MeshRenderer:
   m_ObjectHideFlags: 0
