@@ -7,6 +7,7 @@
 
 ### Fixed
 * Adjusted OR gate artwork
+* Adjusted NOT attach point location
 * Input wires now connect to dual-input gates (AND, OR, XOR) in the correct locations.
 
 ## 2020-04-25

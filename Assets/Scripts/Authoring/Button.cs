@@ -10,7 +10,7 @@ public class Button : MonoBehaviour
     public bool initiallyOn;
 }
 
-[UpdateInGroup(typeof(GameObjectAfterConversionGroup))] // After = requires MeshRenderer conversion
+[UpdateInGroup(typeof(GameObjectAfterConversionGroup))] // After = requires MeshRenderer and Gate conversion to complete
 [WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
 public class ButtonConversion : GameObjectConversionSystem
 {
@@ -23,8 +23,6 @@ public class ButtonConversion : GameObjectConversionSystem
             DstEntityManager.AddComponents(buttonEntity, new ComponentTypes(new ComponentType[]
             {
                 typeof(ClickableNode),
-                typeof(NodeOutput),
-                typeof(DagDepth),
             }));
             
             // Convert bounding box to ClickableNode
@@ -46,7 +44,6 @@ public class ButtonConversion : GameObjectConversionSystem
                 renderMesh.material = matSwapper.onMaterial;
                 DstEntityManager.SetSharedComponentData(buttonEntity, renderMesh);
             }
-            
         });
     }
 }

@@ -27,10 +27,9 @@ public class GateDagSortSystem : SystemBase
     {
         RequireSingletonForUpdate<DagIsStale>();
 
-        // Buttons don't have GateInput. The final node likely won't have an output. Both should be included in the sort.
         _nodeQuery = GetEntityQuery(new EntityQueryDesc
         {
-            Any = new[] {ComponentType.ReadOnly<NodeOutput>(), ComponentType.ReadOnly<NodeInput>()}
+            Any = new[] {ComponentType.ReadOnly<DagDepth>()}
         });
 
     }

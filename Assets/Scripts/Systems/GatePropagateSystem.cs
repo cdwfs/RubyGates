@@ -8,6 +8,7 @@ public enum GateType
     Xor = 3,
     Not = 4,
     Sink = 5,
+    Button = 6,
 }
 
 // A node's current output value (0 or 1)
@@ -88,6 +89,8 @@ public class GatePropagateSystem : SystemBase
                                 ecb.AddComponent<VictoryTag>(entityInQueryIndex, nodeEntity);
                             }
                             break;
+                        case GateType.Button:
+                            break; // handled in HandleInputSystem, and skipped because dagDepth=0
                     }
                     // Change material based on node state
                     if (output.Changed)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5415995224954964815}
   - component: {fileID: 2800993802296289418}
   - component: {fileID: 7721800847464704884}
-  - component: {fileID: 8734741367950524989}
+  - component: {fileID: 5855672397885690458}
   - component: {fileID: 6009724081550090137}
   - component: {fileID: -1016904987883160805}
   - component: {fileID: 5415995224954964813}
@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfb19428489ebc42b41a73843fb22ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outputAttachTransform: {fileID: 0}
   gateType: 5
 --- !u!114 &7721800847464704884
 MonoBehaviour:
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b061edbab0f00374ba1c7cea03a5c507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8734741367950524989
+--- !u!114 &5855672397885690458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,13 +75,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5415995224954964803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 355e304bc1c9a1c48be47b3f8f418502, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e7d604900cf5344bbadf5a8d1949e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wirePrefab: {fileID: -3362325476739351387, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
-  outputAttachTransform: {fileID: 0}
-  inputAttachTransforms:
-  - {fileID: 6956631611060663309}
+  attachTransform: {fileID: 6956631611060663309}
   inputNodes:
   - {fileID: 0}
 --- !u!114 &6009724081550090137

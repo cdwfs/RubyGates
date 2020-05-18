@@ -6,6 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Gate : MonoBehaviour
 {
+    public Transform outputAttachTransform; // can be null for Sink nodes
     public GateType gateType;
 }
 

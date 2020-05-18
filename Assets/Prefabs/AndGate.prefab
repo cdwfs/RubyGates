@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415995224954964815}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5084055463453567525
 GameObject:
@@ -58,7 +58,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415995224954964815}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5415995224954964803
 GameObject:
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5415995224954964815}
   - component: {fileID: 5359169851904624178}
-  - component: {fileID: 8734741367950524989}
+  - component: {fileID: 754741616284103828}
   - component: {fileID: 287549297616352204}
   - component: {fileID: 5415995224954964813}
   - component: {fileID: 5415995224954964812}
@@ -93,9 +93,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 2.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4736854914468115838}
   - {fileID: 3901057882900518597}
   - {fileID: 5997784348971215662}
-  - {fileID: 4736854914468115838}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,8 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfb19428489ebc42b41a73843fb22ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outputAttachTransform: {fileID: 4736854914468115838}
   gateType: 1
---- !u!114 &8734741367950524989
+--- !u!114 &754741616284103828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,17 +122,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5415995224954964803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 355e304bc1c9a1c48be47b3f8f418502, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a1fb07aafad24e438ff8418ebadc930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wirePrefab: {fileID: -3362325476739351387, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
-  inputAttachTransforms:
-  - {fileID: 3901057882900518597}
-  - {fileID: 5997784348971215662}
-  outputAttachTransform: {fileID: 4736854914468115838}
-  inputNodes:
-  - {fileID: 0}
-  - {fileID: 0}
+  attachTransformL: {fileID: 3901057882900518597}
+  attachTransformR: {fileID: 5997784348971215662}
+  inputNodeL: {fileID: 0}
+  inputNodeR: {fileID: 0}
 --- !u!114 &287549297616352204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,5 +233,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415995224954964815}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
