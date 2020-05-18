@@ -1,6 +1,6 @@
 # RubyGates ChangeLog
 
-## 2020-05-17
+## 2020-05-18
 
 ### Added
 * Added XOR gate type (including a tutorial level, and some cameos in existing levels)
@@ -9,6 +9,7 @@
 * Adjusted OR gate artwork
 * Adjusted NOT attach point location
 * Input wires now connect to dual-input gates (AND, OR, XOR) in the correct locations.
+* Temporarily switched scripting backend from IL2CPP to Mono to avoid a regression in the Entities package. Will switch back later.
 
 ## 2020-04-25
 
