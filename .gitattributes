@@ -7,4 +7,5 @@
 *.shadergraph text eol=lf
 *.asset text eol=lf
 *.json text eol=lf
+*.buildconfiguration text eol=lf
 *.psd -text

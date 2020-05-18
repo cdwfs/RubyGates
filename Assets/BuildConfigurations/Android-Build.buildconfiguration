@@ -5,11 +5,9 @@
     "Components": [
         {
             "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
-            "Target": 13,
-            "Configuration": 3,
-            "Pipeline": "GlobalObjectId_V1-1-e14aeb54db1ebab49b889f8c74aa0f24-93214019566545601-0",
-            "ExcludedAssemblies": [
-            ]
+            "$version": 1,
+            "Platform": "Android",
+            "Configuration": 3
         },
         {
             "$type": "Unity.Build.Common.OutputBuildDirectory, Unity.Build.Common",
@@ -26,7 +24,7 @@
         },
         {
             "$type": "Unity.Build.Classic.ClassicScriptingSettings, Unity.Build.Classic",
-            "ScriptingBackend": 0,
+            "ScriptingBackend": 1,
             "Il2CppCompilerConfiguration": 1,
             "UseIncrementalGC": true
         }
