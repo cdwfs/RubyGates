@@ -5,41 +5,48 @@ using Unity.Rendering;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequiresEntityConversion]
-public class Button : MonoBehaviour, IConvertGameObjectToEntity
+public class Button : MonoBehaviour
 {
     public bool initiallyOn;
+}
 
-    public void Convert(Entity buttonEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+[UpdateInGroup(typeof(GameObjectAfterConversionGroup))] // After = requires MeshRenderer conversion
+[WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
+public class ButtonConversion : GameObjectConversionSystem
+{
+    protected override void OnUpdate()
     {
-        var componentTypes = new List<ComponentType>
+        Entities.ForEach((Button button, BoxCollider2D box, MaterialSwapper matSwapper) =>
         {
-            typeof(ClickableNode),
-            typeof(NodeOutput),
-            typeof(DagDepth),
-        };
-        dstManager.AddComponents(buttonEntity, new ComponentTypes(componentTypes.ToArray()));
+            var buttonEntity = GetPrimaryEntity(button);
 
-        var box = GetComponent<BoxCollider2D>();
-        var bounds = box.bounds;
-        var boundsMin = bounds.min;
-        var boundsMax = bounds.max;
-        dstManager.SetComponentData(buttonEntity, new ClickableNode
-        {
-            RectMin = new float2(boundsMin.x, boundsMin.y),
-            RectMax = new float2(boundsMax.x, boundsMax.y),
+            DstEntityManager.AddComponents(buttonEntity, new ComponentTypes(new ComponentType[]
+            {
+                typeof(ClickableNode),
+                typeof(NodeOutput),
+                typeof(DagDepth),
+            }));
+            
+            // Convert bounding box to ClickableNode
+            var bounds = box.bounds;
+            var boundsMin = bounds.min;
+            var boundsMax = bounds.max;
+            DstEntityManager.SetComponentData(buttonEntity, new ClickableNode
+            {
+                RectMin = new float2(boundsMin.x, boundsMin.y),
+                RectMax = new float2(boundsMax.x, boundsMax.y),
+            });
+
+            if (button.initiallyOn)
+            {
+                // Set initial NodeOutput
+                DstEntityManager.SetComponentData(buttonEntity, new NodeOutput {Value = 1});
+                // Override default material
+                var renderMesh = DstEntityManager.GetSharedComponentData<RenderMesh>(buttonEntity);
+                renderMesh.material = matSwapper.onMaterial;
+                DstEntityManager.SetSharedComponentData(buttonEntity, renderMesh);
+            }
+            
         });
-
-        if (initiallyOn)
-        {
-            // Set initial NodeOutput
-            dstManager.SetComponentData(buttonEntity, new NodeOutput {Value = 1});
-            // Override default material
-            var matSwapper = GetComponent<MaterialSwapper>();
-            var renderMesh = dstManager.GetSharedComponentData<RenderMesh>(buttonEntity);
-            renderMesh.material = matSwapper.onMaterial;
-            dstManager.SetSharedComponentData(buttonEntity, renderMesh);
-        }
- 
     }
 }

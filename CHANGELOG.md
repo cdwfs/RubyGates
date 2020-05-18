@@ -1,14 +1,15 @@
 # RubyGates ChangeLog
 
-## Unreleased
+## 2020-05-17
 
 ### Added
 * Added XOR gate type (including a tutorial level, and some cameos in existing levels)
 
 ### Fixed
 * Adjusted OR gate artwork
+* Input wires now connect to dual-input gates (AND, OR, XOR) in the correct locations.
 
-## 2020-04-25-23:31:07
+## 2020-04-25
 
 ### Added
 * New sprite art for all gate types
@@ -20,7 +21,7 @@
 * Replaying certain levels after completing them no longer immediately completes them again.
 * Fixed crash during level load if a gate had >1 output nodes.
 
-## 2020-04-18-17:25:04
+## 2020-04-18
 
 ### Added
 * First playable

@@ -1,21 +1,22 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 
-
 [DisallowMultipleComponent]
-[RequiresEntityConversion]
-public class Sink : MonoBehaviour, IConvertGameObjectToEntity
+public class Sink : MonoBehaviour
 {
-    public Material offMaterial;
-    public Material onMaterial;
-    public void Convert(Entity sinkEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    // Just a vehicle for the ParticleSystem at the moment
+}
+
+[UpdateInGroup(typeof(GameObjectConversionGroup))]
+[WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
+public class SinkConversion : GameObjectConversionSystem
+{
+    protected override void OnUpdate()
     {
-        dstManager.AddComponents(sinkEntity, new ComponentTypes(new ComponentType[] {
-            typeof(MaterialPalette),
-        }));
-        dstManager.SetComponentData(sinkEntity, new MaterialPalette(new[] {
-            offMaterial,
-            onMaterial,
-        }));
+        Entities.ForEach((Sink sink, ParticleSystem ps, ParticleSystemRenderer psr) =>
+        {
+            AddHybridComponent(ps);
+            AddHybridComponent(psr);
+        });
     }
 }

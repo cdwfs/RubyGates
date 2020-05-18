@@ -22,18 +22,20 @@ public class VictorySystem : SystemBase
             .WithName("VictorySystem")
             .WithoutBurst() // Manipulates GameObjects
             .WithAll<VictoryTag>()
-            .ForEach((Entity sinkEntity, in NodeOutput output) =>
+            .ForEach((Entity sinkEntity, ParticleSystem particles, in NodeOutput output) =>
             {
                 // Remove the Victory tag so this system only runs once
                 ecb.RemoveComponent<VictoryTag>(sinkEntity);
 
                 // Disable mouse interaction with nodes once victory is detected
                 ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
+
+                particles.Play();
                 
                 // Victory!
-                var victory = GameObject.Find("Victory").GetComponent<Victory>();
-                Assert.IsNotNull(victory);
-                victory.DoVictoryDance();
+                var uiMgr = GameObject.FindObjectOfType<UIManager>();
+                Assert.IsNotNull(uiMgr);
+                uiMgr.SetVictoryPanelActive(true);
             }).Run();
     }
 }

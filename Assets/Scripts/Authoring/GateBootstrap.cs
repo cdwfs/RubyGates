@@ -2,12 +2,21 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequiresEntityConversion]
-public class GateBootstrap : MonoBehaviour, IConvertGameObjectToEntity
+public class GateBootstrap : MonoBehaviour
 {
-    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    // Just a placeholder to force a GateBootstrap entity to be created
+}
+
+[UpdateInGroup(typeof(GameObjectAfterConversionGroup))] // After = requires MeshRenderer conversion
+[WorldSystemFilter(WorldSystemFilterFlags.HybridGameObjectConversion)]
+public class GateBootstrapConversion : GameObjectConversionSystem
+{
+    protected override void OnUpdate()
     {
-        // TODO: should this happen on Scene load?
-        dstManager.AddComponent<DagIsStale>(entity);
+        Entities.ForEach((GateBootstrap bootstrap) =>
+        {
+            var bootstrapEntity = GetPrimaryEntity(bootstrap);
+            DstEntityManager.AddComponent<DagIsStale>(bootstrapEntity);
+        });
     }
 }
