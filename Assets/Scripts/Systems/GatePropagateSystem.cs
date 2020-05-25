@@ -42,6 +42,29 @@ public class GatePropagateSystem : SystemBase
         ValidDagDepths = new List<DagDepth>();
         _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
+    
+    private static bool GateOutputDictatesMaterial(GateType gateType)
+    {
+        switch (gateType)
+        {
+            case GateType.And:
+                return true;
+            case GateType.Or:
+                return true;
+            case GateType.Xor:
+                return true;
+            case GateType.Not:
+                return true;
+            case GateType.Sink:
+                return true;
+            case GateType.Button:
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    
     protected override void OnUpdate()
     {
         var nodeOutputs = GetComponentDataFromEntity<NodeOutput>(true);
@@ -93,7 +116,7 @@ public class GatePropagateSystem : SystemBase
                             break; // handled in HandleInputSystem, and skipped because dagDepth=0
                     }
                     // Change material based on node state
-                    if (output.Changed)
+                    if (output.Changed && GateOutputDictatesMaterial(gateInfo.Type))
                     {
                         ecb.AddComponent(entityInQueryIndex, nodeEntity, new MaterialChange
                         {
