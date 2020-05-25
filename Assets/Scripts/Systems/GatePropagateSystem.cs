@@ -9,6 +9,8 @@ public enum GateType
     Not = 4,
     Sink = 5,
     Button = 6,
+    BranchOn = 7,
+    BranchOff = 8,
 }
 
 // A node's current output value (0 or 1)
@@ -59,6 +61,10 @@ public class GatePropagateSystem : SystemBase
                 return true;
             case GateType.Button:
                 return true;
+            case GateType.BranchOn:
+                return false;
+            case GateType.BranchOff:
+                return false;
             default:
                 return false;
         }
@@ -114,6 +120,12 @@ public class GatePropagateSystem : SystemBase
                             break;
                         case GateType.Button:
                             break; // handled in HandleInputSystem, and skipped because dagDepth=0
+                        case GateType.BranchOn:
+                            output.Value = nodeOutputs[inputs[0].InputEntity].Value;
+                            break;
+                        case GateType.BranchOff:
+                            output.Value = 0;
+                            break;
                     }
                     // Change material based on node state
                     if (output.Changed && GateOutputDictatesMaterial(gateInfo.Type))

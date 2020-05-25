@@ -3,6 +3,8 @@
 ## 2020-05-25
 
 ### Added
+* Add Branch gate type. These gates route their input signal to one of two output paths. Click to change which path is taken.
+* Add tutorial level for Branches
 
 ### Fixed
 * Optimization: Buttons no longer trigger redundant material updates every single frame.

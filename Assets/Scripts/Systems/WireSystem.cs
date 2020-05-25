@@ -34,6 +34,7 @@ public class WireSystem : SystemBase
         var clearJob = Entities
             .WithName("ClearButtonChanged")
             .WithAll<ClickableNode>()
+            .WithNone<BranchPartner>()
             .ForEach((ref NodeOutput output) =>
             {
                 output.PrevValue = output.Value;

@@ -8,6 +8,11 @@ public struct ClickableNode : IComponentData
     public float2 RectMax;
 }
 
+public struct BranchPartner : IComponentData
+{
+    public Entity PartnerEntity;
+}
+
 public class HandleInputSystem : SystemBase
 {
     BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
@@ -34,24 +39,60 @@ public class HandleInputSystem : SystemBase
             return;
         float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
+        var gateInfos = GetComponentDataFromEntity<GateInfo>(false);
+
         var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
-        // TODO(https://github.com/cdwfs/RubyGates/issues/4): currently only handles buttons. Switches will require additional components.
-        var job = Entities
+        var clickJob = Entities
             .WithName("HandleInputSystem")
-            .ForEach((Entity buttonEntity, int entityInQueryIndex, ref NodeOutput output, in ClickableNode clickable) =>
+            .WithNativeDisableContainerSafetyRestriction(gateInfos)
+            .ForEach((Entity clickableEntity, int entityInQueryIndex, ref NodeOutput output, ref GateInfo gateInfo, in ClickableNode clickable) =>
             {
                 if (math.all(clickPos > clickable.RectMin) && math.all(clickPos < clickable.RectMax))
                 {
-                    output.PrevValue = output.Value;
-                    output.Value = 1 - output.Value;
+                    int newMaterialIndex = -1;
+                    switch(gateInfo.Type)
+                    {
+                        // Button: clicking changes output value
+                        case GateType.Button:
+                        {
+                            output.PrevValue = output.Value;
+                            output.Value = 1 - output.Value;
+                            newMaterialIndex = output.Value;
+                            break;
+                        }
+                        // Branch: clicking changes node type
+                        case GateType.BranchOff:
+                        {
+                            gateInfo.Type = GateType.BranchOn;
+                            newMaterialIndex = 0;
+                            // Update partner entity's type
+                            var partnerEntity = GetComponent<BranchPartner>(clickableEntity).PartnerEntity;
+                            var partnerGateInfo = gateInfos[partnerEntity];
+                            partnerGateInfo.Type = GateType.BranchOff;
+                            gateInfos[partnerEntity] = partnerGateInfo;
+                            break;
+                        }
+                        case GateType.BranchOn:
+                        {
+                            gateInfo.Type = GateType.BranchOff;
+                            newMaterialIndex = 1;
+                            // Update partner entity's type
+                            var partnerEntity = GetComponent<BranchPartner>(clickableEntity).PartnerEntity;
+                            var partnerGateInfo = gateInfos[partnerEntity];
+                            partnerGateInfo.Type = GateType.BranchOn;
+                            gateInfos[partnerEntity] = partnerGateInfo;
+                            break;
+                        }
+                    }
+                    
                     // Change material
-                    ecb.AddComponent(entityInQueryIndex, buttonEntity, new MaterialChange {
-                        entity = buttonEntity,
-                        materialIndex = output.Value,
+                    ecb.AddComponent(entityInQueryIndex, clickableEntity, new MaterialChange {
+                        entity = clickableEntity,
+                        materialIndex = newMaterialIndex,
                     });
                 }
             }).ScheduleParallel(Dependency);
-        _beginPresEcbSystem.AddJobHandleForProducer(job);
-        Dependency = job;
+        _beginPresEcbSystem.AddJobHandleForProducer(clickJob);
+        Dependency = clickJob;
     }
 }
