@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4429361737150112515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5997784348971215662}
-  m_Layer: 0
-  m_Name: AndInputAttachPointR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5997784348971215662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4429361737150112515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.356, y: -0.384, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5415995224954964815}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5084055463453567525
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4736854914468115838}
   m_Layer: 0
-  m_Name: AndOutputAttachPoint
+  m_Name: XorOutputAttachPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,14 +39,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5415995224954964815}
-  - component: {fileID: 5359169851904624178}
-  - component: {fileID: 754741616284103828}
-  - component: {fileID: 287549297616352204}
+  - component: {fileID: 994184698366522664}
+  - component: {fileID: 3652521937647028905}
+  - component: {fileID: 2083877353453608829}
   - component: {fileID: 5415995224954964813}
   - component: {fileID: 5415995224954964812}
   - component: {fileID: 1640003872760244772}
   m_Layer: 0
-  m_Name: AndGate
+  m_Name: XorGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,16 +60,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5415995224954964803}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4736854914468115838}
   - {fileID: 3901057882900518597}
-  - {fileID: 5997784348971215662}
+  - {fileID: 1072018561320672037}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5359169851904624178
+--- !u!114 &994184698366522664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,8 +82,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outputAttachTransform: {fileID: 4736854914468115838}
-  gateType: 1
---- !u!114 &754741616284103828
+  gateType: 3
+--- !u!114 &3652521937647028905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,10 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wirePrefab: {fileID: -3362325476739351387, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
   attachTransformL: {fileID: 3901057882900518597}
-  attachTransformR: {fileID: 5997784348971215662}
+  attachTransformR: {fileID: 1072018561320672037}
   inputNodeL: {fileID: 0}
   inputNodeR: {fileID: 0}
---- !u!114 &287549297616352204
+--- !u!114 &2083877353453608829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,8 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87680c50bd913643afaccca5f1fa3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offMaterial: {fileID: 2100000, guid: cf6d0742cfae73845b2ee1f92612de8b, type: 2}
-  onMaterial: {fileID: 2100000, guid: da2c4c38d8f46734499c67b8a7d35168, type: 2}
+  offMaterial: {fileID: 2100000, guid: db2f7af41ed548a42a3b40edcf42a1e9, type: 2}
+  onMaterial: {fileID: 2100000, guid: 815818f22dd7fac41b8e218efba347b8, type: 2}
 --- !u!23 &5415995224954964813
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -163,7 +133,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf6d0742cfae73845b2ee1f92612de8b, type: 2}
+  - {fileID: 2100000, guid: db2f7af41ed548a42a3b40edcf42a1e9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -215,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3901057882900518597}
   m_Layer: 0
-  m_Name: AndInputAttachPointL
+  m_Name: XorInputAttachPointL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,9 +199,39 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5595922003620755163}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.371, y: -0.384, z: 0}
+  m_LocalPosition: {x: -0.335, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415995224954964815}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7915458415883131227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1072018561320672037}
+  m_Layer: 0
+  m_Name: XorInputAttachPointR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1072018561320672037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915458415883131227}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.341, y: -0.454, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5415995224954964815}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
