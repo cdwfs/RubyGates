@@ -30,6 +30,7 @@ public class GateInputsN : MonoBehaviour, IDeclareReferencedPrefabs
 
     public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)
     {
-        referencedPrefabs.Add(wirePrefab.gameObject);
+        if (wirePrefab != null)
+            referencedPrefabs.Add(wirePrefab.gameObject);
     }
 }

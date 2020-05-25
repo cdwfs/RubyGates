@@ -10,6 +10,8 @@ public class GateInputsConversionSystem : GameObjectConversionSystem
 {
     void CreateWireEntities(Component rootComponent, Wire wirePrefab, Vector3 wireEndPos, params Gate[] inputNodes)
     {
+        if (wirePrefab == null)
+            return;
         var wireMaterials = wirePrefab.GetComponent<MaterialSwapper>();
         var wireMeshFilter = wirePrefab.GetComponent<MeshFilter>();
         var wireTransform = wirePrefab.GetComponent<Transform>();
