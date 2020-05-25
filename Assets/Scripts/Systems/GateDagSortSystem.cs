@@ -174,6 +174,7 @@ public class GateDagSortSystem : SystemBase
         EntityManager.GetAllUniqueSharedComponentData(validDagDepths);
         validDagDepths.Sort((x, y) => x.Value.CompareTo(y.Value));
 
-        EntityManager.DestroyEntity(GetSingletonEntity<DagIsStale>());
+        // Sort complete; remove the singleton component.
+        EntityManager.RemoveComponent<DagIsStale>(GetSingletonEntity<DagIsStale>());
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Sink : MonoBehaviour
 {
-    // Just a vehicle for the ParticleSystem at the moment
 }
 
 [UpdateInGroup(typeof(GameObjectConversionGroup))]
@@ -17,6 +16,10 @@ public class SinkConversion : GameObjectConversionSystem
         {
             AddHybridComponent(ps);
             AddHybridComponent(psr);
+
+            // Every scene needs a Sink, so it can drive the DAG sorting.
+            var sinkEntity = GetPrimaryEntity(sink);
+            DstEntityManager.AddComponent<DagIsStale>(sinkEntity);
         });
     }
 }
