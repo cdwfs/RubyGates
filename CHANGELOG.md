@@ -6,6 +6,7 @@
 
 ### Fixed
 * Optimization: Buttons no longer trigger redundant material updates every single frame.
+* Fixed potential race conditions in gate propagation logic
 
 ## 2020-05-18
 

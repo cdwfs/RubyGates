@@ -46,12 +46,12 @@ public class GatePropagateSystem : SystemBase
     {
         var nodeOutputs = GetComponentDataFromEntity<NodeOutput>(true);
 
-        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
         foreach(var depth in ValidDagDepths)
         {
             if (depth.Value == 0)
                 continue; // skip depth-zero nodes; they should all be buttons.
-            var job = Entities
+            var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+            Dependency = Entities
                 .WithName("GatePropagateSystem")
                 .WithNativeDisableContainerSafetyRestriction(nodeOutputs) // DAG sort ensures each pass writes to different outputs than it reads
                 .WithSharedComponentFilter(depth)
@@ -102,8 +102,7 @@ public class GatePropagateSystem : SystemBase
                         });
                     }
                 }).ScheduleParallel(Dependency);
-            _beginPresEcbSystem.AddJobHandleForProducer(job);
-            Dependency = job;
+            _beginPresEcbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }
