@@ -15,7 +15,7 @@ public class WireSystem : SystemBase
     protected override void OnUpdate()
     {
         var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
-        var job = Entities
+        var wireJob = Entities
             .WithName("WireSystem")
             .ForEach((Entity wireEntity, int entityInQueryIndex, in WireInput wireInput) =>
             {
@@ -28,7 +28,16 @@ public class WireSystem : SystemBase
                     });
                 }
             }).ScheduleParallel(Dependency);
-        _beginPresEcbSystem.AddJobHandleForProducer(job);
-        Dependency = job;
+        _beginPresEcbSystem.AddJobHandleForProducer(wireJob);
+        
+        // Once the wire job runs, we can clear the "changed" state of all buttons
+        var clearJob = Entities
+            .WithName("ClearButtonChanged")
+            .WithAll<ClickableNode>()
+            .ForEach((ref NodeOutput output) =>
+            {
+                output.PrevValue = output.Value;
+            }).ScheduleParallel(wireJob);
+        Dependency = clearJob;
     }
 }

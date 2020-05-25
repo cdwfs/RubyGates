@@ -1,5 +1,12 @@
 # RubyGates ChangeLog
 
+## 2020-05-25
+
+### Added
+
+### Fixed
+* Optimization: Buttons no longer trigger redundant material updates every single frame.
+
 ## 2020-05-18
 
 ### Added
