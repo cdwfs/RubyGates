@@ -5,6 +5,7 @@
 ### Added
 * Add Branch gate type. These gates route their input signal to one of two output paths. Click to change which path is taken.
 * Add tutorial level for Branches
+* Add one new general puzzle level.
 
 ### Fixed
 * Optimization: Buttons no longer trigger redundant material updates every single frame.

@@ -1,6 +1,5 @@
 {
-    "Dependencies": [
-    ],
+    "Dependencies": [],
     "Components": [
         {
             "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
@@ -50,6 +49,10 @@
                 },
                 {
                     "Scene": "GlobalObjectId_V1-1-b09179de7ee39ad4399e235e783eda8a-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-efb81f38af6dcb9449c78223047ae79f-102900000-0",
                     "AutoLoad": false
                 }
             ]
