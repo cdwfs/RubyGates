@@ -39,6 +39,7 @@ public class ChangeMaterialSystem : SystemBase
             .ForEach((Entity entity, in MaterialChange change, in MaterialPalette palette) => {
                 var renderMesh = EntityManager.GetSharedComponentData<RenderMesh>(change.entity);
                 Assert.IsTrue(change.materialIndex >= 0 || change.materialIndex < palette.Materials.Length);
+                //Debug.Log($"Changing {EntityManager.GetName(change.entity)} mat from {renderMesh.material.name} to {change.materialIndex} ({palette.Materials[change.materialIndex].name})");
                 renderMesh.material = palette.Materials[change.materialIndex];
                 EntityManager.SetSharedComponentData(change.entity, renderMesh);
             }).Run();
