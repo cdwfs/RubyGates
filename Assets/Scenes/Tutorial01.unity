@@ -597,7 +597,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'I am a <b><color=#95739e>BIT</color></b>. I can be <B><color="yellow">TRUE</color></B>
-    or <B><color="red">FALSE</color></b>.
+    or <B><color="red">FALSE</color></B>.
 
     Click me to change my value!'
   m_isRightToLeft: 0
