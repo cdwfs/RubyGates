@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5415995224954964812}
   - component: {fileID: 1640003872760244772}
   m_Layer: 0
-  m_Name: XorGate
+  m_Name: Xor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
