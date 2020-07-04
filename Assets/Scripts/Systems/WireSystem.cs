@@ -1,7 +1,14 @@
 ﻿using Unity.Entities;
+using Unity.Rendering;
 
 public struct WireInput : IComponentData {
     public Entity InputEntity;
+}
+
+[MaterialProperty("_WireState", MaterialPropertyFormat.Float)]
+public struct WireState : IComponentData
+{
+    public float Value;
 }
 
 [UpdateAfter(typeof(GatePropagateSystem))]
@@ -14,31 +21,13 @@ public class WireSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var ecb = _beginPresEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var wireJob = Entities
             .WithName("WireSystem")
-            .ForEach((Entity wireEntity, int entityInQueryIndex, in WireInput wireInput) =>
+            .ForEach((ref WireState wireState, in WireInput wireInput) =>
             {
                 var inputGateOutput = GetComponent<NodeOutput>(wireInput.InputEntity);
-                if (inputGateOutput.Changed)
-                {
-                    ecb.AddComponent(entityInQueryIndex, wireEntity, new MaterialChange {
-                        entity = wireEntity,
-                        materialIndex = inputGateOutput.Value,
-                    });
-                }
+                wireState.Value = inputGateOutput.Value;
             }).ScheduleParallel(Dependency);
-        _beginPresEcbSystem.AddJobHandleForProducer(wireJob);
-        
-        // Once the wire job runs, we can clear the "changed" state of all buttons
-        var clearJob = Entities
-            .WithName("ClearButtonChanged")
-            .WithAll<ClickableNode>()
-            .WithNone<BranchPartner>()
-            .ForEach((ref NodeOutput output) =>
-            {
-                output.PrevValue = output.Value;
-            }).ScheduleParallel(wireJob);
-        Dependency = clearJob;
+        Dependency = wireJob;
     }
 }

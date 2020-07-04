@@ -19,7 +19,7 @@ public class SwitchConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Branch branch, BoxCollider2D box, MaterialSwapper matSwapper) =>
+        Entities.ForEach((Branch branch, BoxCollider2D box) =>
         {
             var branchEntity = GetPrimaryEntity(branch);
 
@@ -36,6 +36,7 @@ public class SwitchConversion : GameObjectConversionSystem
             {
                 typeof(ClickableNode),
                 typeof(BranchPartner),
+                typeof(BranchState),
             }));
             
             // Partner entity should use the same input node as the base branch entity
@@ -58,6 +59,8 @@ public class SwitchConversion : GameObjectConversionSystem
                 RectMax = new float2(boundsMax.x, boundsMax.y),
             });
 
+            DstEntityManager.SetComponentData(branchEntity,
+                new BranchState {Value = branch.initiallyRight ? 1.0f : 0.0f});
             if (branch.initiallyRight)
             {
                 // Set initial GateType for both sides of the branch
@@ -67,10 +70,6 @@ public class SwitchConversion : GameObjectConversionSystem
                 var partnerGateInfo = DstEntityManager.GetComponentData<GateInfo>(partnerEntity);
                 partnerGateInfo.Type = GateType.BranchOn;
                 DstEntityManager.SetComponentData(partnerEntity, partnerGateInfo);
-                // Override default material
-                var renderMesh = DstEntityManager.GetSharedComponentData<RenderMesh>(branchEntity);
-                renderMesh.material = matSwapper.onMaterial;
-                DstEntityManager.SetSharedComponentData(branchEntity, renderMesh);
             }
             else
             {
@@ -81,10 +80,6 @@ public class SwitchConversion : GameObjectConversionSystem
                 var partnerGateInfo = DstEntityManager.GetComponentData<GateInfo>(partnerEntity);
                 partnerGateInfo.Type = GateType.BranchOff;
                 DstEntityManager.SetComponentData(partnerEntity, partnerGateInfo);
-                // Override default material
-                var renderMesh = DstEntityManager.GetSharedComponentData<RenderMesh>(branchEntity);
-                renderMesh.material = matSwapper.offMaterial;
-                DstEntityManager.SetSharedComponentData(branchEntity, renderMesh);
             }
         });
     }

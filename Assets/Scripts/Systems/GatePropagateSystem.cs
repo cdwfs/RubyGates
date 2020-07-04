@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Rendering;
 
 public enum GateType
 {
@@ -14,15 +15,14 @@ public enum GateType
 }
 
 // A node's current output value (0 or 1)
+[MaterialProperty("_NodeOutput", MaterialPropertyFormat.Float)]
 public struct NodeOutput : IComponentData
 {
-    public int Value;
-    public int PrevValue;
-    public bool Changed => Value != PrevValue;
+    public float Value; // TODO: this should be an int, but MaterialProperies must currently be floats.
 }
 
 // A buffer of the node entities (0+) whose outputs feed into this node.
-[InternalBufferCapacity(2)] // We never expect more than 2 inputs per node, right?
+[InternalBufferCapacity(2)] // We never expect more than 2 inputs per node, right?  (Aside from Sinks)
 public struct NodeInput : IBufferElementData
 {
     public Entity InputEntity;
@@ -45,32 +45,6 @@ public class GatePropagateSystem : SystemBase
         _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
     }
     
-    private static bool GateOutputDictatesMaterial(GateType gateType)
-    {
-        switch (gateType)
-        {
-            case GateType.And:
-                return true;
-            case GateType.Or:
-                return true;
-            case GateType.Xor:
-                return true;
-            case GateType.Not:
-                return true;
-            case GateType.Sink:
-                return true;
-            case GateType.Button:
-                return true;
-            case GateType.BranchOn:
-                return false;
-            case GateType.BranchOff:
-                return false;
-            default:
-                return false;
-        }
-    }
-    
-    
     protected override void OnUpdate()
     {
         var nodeOutputs = GetComponentDataFromEntity<NodeOutput>(true);
@@ -87,33 +61,33 @@ public class GatePropagateSystem : SystemBase
                 .ForEach((Entity nodeEntity, int entityInQueryIndex, ref NodeOutput output,
                     in DynamicBuffer<NodeInput> inputs, in GateInfo gateInfo) =>
                 {
-                    output.PrevValue = output.Value;
+                    float newOutput = 0.0f;
                     switch (gateInfo.Type)
                     {
                         case GateType.And:
-                            output.Value = nodeOutputs[inputs[0].InputEntity].Value & nodeOutputs[inputs[1].InputEntity].Value;
+                            newOutput = (int)nodeOutputs[inputs[0].InputEntity].Value & (int)nodeOutputs[inputs[1].InputEntity].Value;
                             break;
                         case GateType.Or:
-                            output.Value = nodeOutputs[inputs[0].InputEntity].Value | nodeOutputs[inputs[1].InputEntity].Value;
+                            newOutput = (int)nodeOutputs[inputs[0].InputEntity].Value | (int)nodeOutputs[inputs[1].InputEntity].Value;
                             break;
                         case GateType.Xor:
-                            output.Value = nodeOutputs[inputs[0].InputEntity].Value ^ nodeOutputs[inputs[1].InputEntity].Value;
+                            newOutput = (int)nodeOutputs[inputs[0].InputEntity].Value ^ (int)nodeOutputs[inputs[1].InputEntity].Value;
                             break;
                         case GateType.Not:
-                            output.Value = 1 - nodeOutputs[inputs[0].InputEntity].Value;
+                            newOutput = 1 - (int)nodeOutputs[inputs[0].InputEntity].Value;
                             break;
                         case GateType.Sink:
-                            output.Value = 1;
+                            newOutput = 1;
                             for(int i=0; i<inputs.Length; ++i)
                             {
                                 if (nodeOutputs[inputs[i].InputEntity].Value == 0)
                                 {
-                                    output.Value = 0;
+                                    newOutput = 0;
                                     break;
                                 }
                             }
                             // Add the tag that begins the "end of level" flow
-                            if (output.Value == 1 && output.Changed)
+                            if (newOutput == 1 && output.Value == 0)
                             {
                                 ecb.AddComponent<VictoryTag>(entityInQueryIndex, nodeEntity);
                             }
@@ -121,21 +95,13 @@ public class GatePropagateSystem : SystemBase
                         case GateType.Button:
                             break; // handled in HandleInputSystem, and skipped because dagDepth=0
                         case GateType.BranchOn:
-                            output.Value = nodeOutputs[inputs[0].InputEntity].Value;
+                            newOutput = nodeOutputs[inputs[0].InputEntity].Value;
                             break;
                         case GateType.BranchOff:
-                            output.Value = 0;
+                            newOutput = 0;
                             break;
                     }
-                    // Change material based on node state
-                    if (output.Changed && GateOutputDictatesMaterial(gateInfo.Type))
-                    {
-                        ecb.AddComponent(entityInQueryIndex, nodeEntity, new MaterialChange
-                        {
-                            entity = nodeEntity,
-                            materialIndex = output.Value,
-                        });
-                    }
+                    output.Value = newOutput;
                 }).ScheduleParallel(Dependency);
             _beginPresEcbSystem.AddJobHandleForProducer(Dependency);
         }

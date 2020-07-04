@@ -16,7 +16,7 @@ public class ButtonConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Button button, BoxCollider2D box, MaterialSwapper matSwapper) =>
+        Entities.ForEach((Button button, BoxCollider2D box) =>
         {
             var buttonEntity = GetPrimaryEntity(button);
 
@@ -39,10 +39,6 @@ public class ButtonConversion : GameObjectConversionSystem
             {
                 // Set initial NodeOutput
                 DstEntityManager.SetComponentData(buttonEntity, new NodeOutput {Value = 1});
-                // Override default material
-                var renderMesh = DstEntityManager.GetSharedComponentData<RenderMesh>(buttonEntity);
-                renderMesh.material = matSwapper.onMaterial;
-                DstEntityManager.SetSharedComponentData(buttonEntity, renderMesh);
             }
         });
     }

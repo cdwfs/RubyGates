@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 3313024315540426009}
   - component: {fileID: 6550397082839664143}
   - component: {fileID: 2537232952313788247}
-  - component: {fileID: 373831962104831055}
   - component: {fileID: 3313024315540426011}
   - component: {fileID: 3313024315540426012}
   - component: {fileID: 1872519873}
@@ -95,20 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outputAttachTransform: {fileID: 3821486741864302620}
   gateType: 6
---- !u!114 &373831962104831055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313024315540426013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f87680c50bd913643afaccca5f1fa3ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offMaterial: {fileID: 2100000, guid: f6b984ea8f9761344abe7f09866ea822, type: 2}
-  onMaterial: {fileID: 2100000, guid: 486a1ad1350af8149b822457d78868c7, type: 2}
 --- !u!23 &3313024315540426011
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -128,7 +113,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6b984ea8f9761344abe7f09866ea822, type: 2}
+  - {fileID: 2100000, guid: 7b8eb4753f0a0cb46bf03029f25a7663, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

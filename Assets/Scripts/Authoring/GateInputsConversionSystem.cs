@@ -12,15 +12,15 @@ public class GateInputsConversionSystem : GameObjectConversionSystem
     {
         if (wirePrefab == null)
             return;
-        var wireMaterials = wirePrefab.GetComponent<MaterialSwapper>();
         var wireMeshFilter = wirePrefab.GetComponent<MeshFilter>();
         var wireTransform = wirePrefab.GetComponent<Transform>();
+        var wireMaterial = wirePrefab.GetComponent<MeshRenderer>().sharedMaterial;
 
         // Copy & modify the gate's RenderMesh to reference the correct mesh/material.
         var gateEntity = GetPrimaryEntity(rootComponent);
         var baseRenderMesh = DstEntityManager.GetSharedComponentData<RenderMesh>(gateEntity);
         baseRenderMesh.mesh = wireMeshFilter.sharedMesh;
-        baseRenderMesh.material = wireMaterials.offMaterial;
+        baseRenderMesh.material = wireMaterial;
         
         foreach (var inputNode in inputNodes)
         {
@@ -38,16 +38,10 @@ public class GateInputsConversionSystem : GameObjectConversionSystem
                 typeof(Translation),
                 typeof(Rotation),
                 typeof(NonUniformScale),
-                typeof(MaterialPalette),
-                typeof(WireInput)
+                typeof(WireInput),
+                typeof(WireState),
             }));
 
-            // Store the wire's palette of materials in a separate shared component
-            DstEntityManager.SetComponentData(wireEntity, new MaterialPalette(new[]
-            {
-                wireMaterials.offMaterial,
-                wireMaterials.onMaterial,
-            }));
             DstEntityManager.AddSharedComponentData(wireEntity, baseRenderMesh);
 
             // TODO(https://github.com/cdwfs/RubyGates/issues/9): pre-bake the LocalToWorld and add the Static tag

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2800993802296289418}
   - component: {fileID: 7721800847464704884}
   - component: {fileID: 5855672397885690458}
-  - component: {fileID: 6009724081550090137}
   - component: {fileID: -1016904987883160805}
   - component: {fileID: 5415995224954964813}
   - component: {fileID: 5415995224954964812}
@@ -78,24 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7d604900cf5344bbadf5a8d1949e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wirePrefab: {fileID: -3362325476739351387, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
+  wirePrefab: {fileID: 135243562411523244, guid: d80048810015f3e4abcc097d7a53f946, type: 3}
   attachTransform: {fileID: 6956631611060663309}
   inputNodes:
   - {fileID: 0}
---- !u!114 &6009724081550090137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415995224954964803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f87680c50bd913643afaccca5f1fa3ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offMaterial: {fileID: 2100000, guid: 5a0b2302042dd72479924541f02ef194, type: 2}
-  onMaterial: {fileID: 2100000, guid: f853210f6c412054daddd8373a1eaac8, type: 2}
 --- !u!198 &-1016904987883160805
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4908,7 +4893,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5a0b2302042dd72479924541f02ef194, type: 2}
+  - {fileID: 2100000, guid: 56e7c69ead53acf4083dabb928953c7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
