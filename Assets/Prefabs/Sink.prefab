@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: -1016904987883160805}
   - component: {fileID: 5415995224954964813}
   - component: {fileID: 5415995224954964812}
-  - component: {fileID: 1640003872760244772}
   - component: {fileID: 2766491358529936049}
   m_Layer: 0
   m_Name: Sink
@@ -4923,18 +4922,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5415995224954964803}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1640003872760244772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415995224954964803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af892e4287c1f436baf5a5063049521a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!199 &2766491358529936049
 ParticleSystemRenderer:
   serializedVersion: 6
