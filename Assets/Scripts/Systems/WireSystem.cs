@@ -14,11 +14,6 @@ public struct WireState : IComponentData
 [UpdateAfter(typeof(GatePropagateSystem))]
 public class WireSystem : SystemBase
 {
-    BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
-    protected override void OnCreate() {
-        _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
-    }
-
     protected override void OnUpdate()
     {
         var wireJob = Entities

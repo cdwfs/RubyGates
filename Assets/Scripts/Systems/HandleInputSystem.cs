@@ -22,12 +22,7 @@ public struct BranchState : IComponentData
 
 public class HandleInputSystem : SystemBase
 {
-    BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
     private UIManager _uiManager;
-    
-    protected override void OnCreate() {
-        _beginPresEcbSystem = World.GetExistingSystem<BeginPresentationEntityCommandBufferSystem>();
-    }
 
     protected override void OnUpdate()
     {
@@ -49,7 +44,6 @@ public class HandleInputSystem : SystemBase
         var gateInfos = GetComponentDataFromEntity<GateInfo>(false);
         var branchStates = GetComponentDataFromEntity<BranchState>(false);
 
-        var ecb = _beginPresEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var clickJob = Entities
             .WithName("HandleInputSystem")
             .WithNativeDisableContainerSafetyRestriction(gateInfos)
@@ -98,7 +92,6 @@ public class HandleInputSystem : SystemBase
                     }
                 }
             }).ScheduleParallel(Dependency);
-        _beginPresEcbSystem.AddJobHandleForProducer(clickJob);
         Dependency = clickJob;
     }
 }
