@@ -41,7 +41,7 @@ public class HandleInputSystem : SystemBase
         
         var gateInfos = GetComponentDataFromEntity<GateInfo>(false);
 
-        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+        var ecb = _beginPresEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var clickJob = Entities
             .WithName("HandleInputSystem")
             .WithNativeDisableContainerSafetyRestriction(gateInfos)

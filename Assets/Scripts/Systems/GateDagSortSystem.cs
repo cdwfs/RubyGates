@@ -83,7 +83,7 @@ public class GateDagSortSystem : SystemBase
                 // output count could technically go up to nodeEntities.Length, but we'll start capacity at 8 for now to avoid O(N^2) mem usage
                 Outputs = new NativeList<int>(8, Allocator.Temp),
             };
-            if (nodeInputs.Exists(nodeEntity))
+            if (nodeInputs.HasComponent(nodeEntity))
             {
                 var inputBuffer = nodeInputs[nodeEntity];
                 sg.Inputs.Capacity = inputBuffer.Length;

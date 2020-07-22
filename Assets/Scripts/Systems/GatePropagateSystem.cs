@@ -79,7 +79,7 @@ public class GatePropagateSystem : SystemBase
         {
             if (depth.Value == 0)
                 continue; // skip depth-zero nodes; they should all be buttons.
-            var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+            var ecb = _beginPresEcbSystem.CreateCommandBuffer().AsParallelWriter();
             Dependency = Entities
                 .WithName("GatePropagateSystem")
                 .WithNativeDisableContainerSafetyRestriction(nodeOutputs) // DAG sort ensures each pass writes to different outputs than it reads

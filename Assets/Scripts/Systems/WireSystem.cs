@@ -14,7 +14,7 @@ public class WireSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var ecb = _beginPresEcbSystem.CreateCommandBuffer().ToConcurrent();
+        var ecb = _beginPresEcbSystem.CreateCommandBuffer().AsParallelWriter();
         var wireJob = Entities
             .WithName("WireSystem")
             .ForEach((Entity wireEntity, int entityInQueryIndex, in WireInput wireInput) =>
