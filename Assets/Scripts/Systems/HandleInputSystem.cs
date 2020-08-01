@@ -9,6 +9,12 @@ public struct ClickableNode : IComponentData
     public float2 RectMax;
 }
 
+[MaterialProperty("_IsHovering", MaterialPropertyFormat.Float)]
+public struct IsMouseHovering : IComponentData
+{
+    public float Value;
+}
+
 public struct BranchPartner : IComponentData
 {
     public Entity PartnerEntity;
@@ -34,23 +40,23 @@ public class HandleInputSystem : SystemBase
             return;
         }
         
-        if (!Input.GetMouseButtonDown(0))
-            return;
-        
         if (Camera.main == null)
             return;
-        float2 clickPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
+        float2 mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        bool clicked = Input.GetMouseButtonDown(0);
         var gateInfos = GetComponentDataFromEntity<GateInfo>(false);
         var branchStates = GetComponentDataFromEntity<BranchState>(false);
-
         var clickJob = Entities
-            .WithName("HandleInputSystem")
+            .WithName("HandleMouseInput")
             .WithNativeDisableContainerSafetyRestriction(gateInfos)
             .WithNativeDisableContainerSafetyRestriction(branchStates)
-            .ForEach((Entity clickableEntity, int entityInQueryIndex, ref NodeOutput output, ref GateInfo gateInfo, in ClickableNode clickable) =>
+            .ForEach((Entity clickableEntity, ref NodeOutput output, ref GateInfo gateInfo, ref IsMouseHovering isMouseHovering,
+                in ClickableNode clickable) =>
             {
-                if (math.all(clickPos > clickable.RectMin) && math.all(clickPos < clickable.RectMax))
+                isMouseHovering.Value =
+                    math.all(mousePos > clickable.RectMin) && math.all(mousePos < clickable.RectMax) ? 1.0f : 0.0f;
+                if (isMouseHovering.Value > 0.0f && clicked)
                 {
                     switch(gateInfo.Type)
                     {

@@ -23,6 +23,7 @@ public class ButtonConversion : GameObjectConversionSystem
             DstEntityManager.AddComponents(buttonEntity, new ComponentTypes(new ComponentType[]
             {
                 typeof(ClickableNode),
+                typeof(IsMouseHovering),
             }));
             
             // Convert bounding box to ClickableNode

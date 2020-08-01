@@ -35,6 +35,7 @@ public class SwitchConversion : GameObjectConversionSystem
             DstEntityManager.AddComponents(branchEntity, new ComponentTypes(new ComponentType[]
             {
                 typeof(ClickableNode),
+                typeof(IsMouseHovering),
                 typeof(BranchPartner),
                 typeof(BranchState),
             }));
