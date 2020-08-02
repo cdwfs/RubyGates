@@ -1,5 +1,14 @@
 # RubyGates ChangeLog
 
+## 2020-08-02
+
+### Added
+* Added new graphical effect for all interactable gates.
+* Added a new graphical effect for the interactable gate directly under the mouse cursor.
+
+## Fixed
+* Switched back to IL2CPP backend. Not that performance was ever an issue here, but it should be faster now.
+
 ## 2020-05-25
 
 ### Added
