@@ -2,12 +2,12 @@
     "Dependencies": [],
     "Components": [
         {
-            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
             "ProductName": "RubyGates",
             "CompanyName": "Dangerware"
         },
         {
-            "$type": "Unity.Build.Common.SceneList, Unity.Build.Common",
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
             "$version": 1,
             "BuildCurrentScene": false,
             "SceneInfos": [
@@ -62,6 +62,12 @@
             "ScriptingBackend": 1,
             "Il2CppCompilerConfiguration": 1,
             "UseIncrementalGC": true
+        },
+        {
+            "$type": "Unity.Build.Common.PlayerScriptingDefines, Unity.Build",
+            "Defines": [
+                "ENABLE_HYBRID_RENDERER_V2"
+            ]
         }
     ]
 }
