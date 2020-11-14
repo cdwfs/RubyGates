@@ -13,6 +13,7 @@ public class VictorySystem : SystemBase
     protected override void OnCreate() {
         _clickableNodeQuery = GetEntityQuery(typeof(ClickableNode), typeof(DagDepth));
         _endInitEcbSystem = World.GetExistingSystem<EndInitializationEntityCommandBufferSystem>();
+        RequireSingletonForUpdate<VictoryTag>();
     }
 
     protected override void OnUpdate()
