@@ -3,6 +3,11 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using UnityEngine;
 
+public struct ToggleCount : IComponentData
+{
+    public int Value;
+}
+
 public struct ClickableNode : IComponentData
 {
     public float2 RectMin;
@@ -52,8 +57,9 @@ public class HandleInputSystem : SystemBase
             .WithNativeDisableContainerSafetyRestriction(gateInfos)
             .WithNativeDisableContainerSafetyRestriction(branchStates)
             .ForEach((Entity clickableEntity, ref NodeOutput output, ref GateInfo gateInfo, ref IsMouseHovering isMouseHovering,
-                in ClickableNode clickable) =>
+                ref ToggleCount toggleCount, in ClickableNode clickable) =>
             {
+                bool toggledAThing = false;
                 isMouseHovering.Value =
                     math.all(mousePos > clickable.RectMin) && math.all(mousePos < clickable.RectMax) ? 1.0f : 0.0f;
                 if (isMouseHovering.Value > 0.0f && clicked)
@@ -64,12 +70,14 @@ public class HandleInputSystem : SystemBase
                         case GateType.Button:
                         {
                             output.Value = 1 - output.Value;
+                            toggledAThing = true;
                             break;
                         }
                         // Branch: clicking changes node type
                         case GateType.BranchOff:
                         {
                             gateInfo.Type = GateType.BranchOn;
+                            toggledAThing = true;
                             // Update partner entity's type
                             var partnerEntity = GetComponent<BranchPartner>(clickableEntity).PartnerEntity;
                             var partnerGateInfo = gateInfos[partnerEntity];
@@ -84,6 +92,7 @@ public class HandleInputSystem : SystemBase
                         case GateType.BranchOn:
                         {
                             gateInfo.Type = GateType.BranchOff;
+                            toggledAThing = true;
                             // Update partner entity's type
                             var partnerEntity = GetComponent<BranchPartner>(clickableEntity).PartnerEntity;
                             var partnerGateInfo = gateInfos[partnerEntity];
@@ -96,6 +105,10 @@ public class HandleInputSystem : SystemBase
                             break;
                         }
                     }
+                }
+                if (toggledAThing)
+                {
+                    toggleCount.Value += 1;
                 }
             }).ScheduleParallel(Dependency);
         Dependency = clickJob;

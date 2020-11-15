@@ -35,6 +35,7 @@ public class SwitchConversion : GameObjectConversionSystem
             DstEntityManager.AddComponents(branchEntity, new ComponentTypes(new ComponentType[]
             {
                 typeof(ClickableNode),
+                typeof(ToggleCount),
                 typeof(IsMouseHovering),
                 typeof(BranchPartner),
                 typeof(BranchState),
@@ -59,6 +60,9 @@ public class SwitchConversion : GameObjectConversionSystem
                 RectMin = new float2(boundsMin.x, boundsMin.y),
                 RectMax = new float2(boundsMax.x, boundsMax.y),
             });
+
+            // redundant, but hey
+            DstEntityManager.SetComponentData(branchEntity, new ToggleCount {Value = 0});
 
             DstEntityManager.SetComponentData(branchEntity,
                 new BranchState {Value = branch.initiallyRight ? 1.0f : 0.0f});

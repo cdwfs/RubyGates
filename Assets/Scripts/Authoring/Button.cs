@@ -23,6 +23,7 @@ public class ButtonConversion : GameObjectConversionSystem
             DstEntityManager.AddComponents(buttonEntity, new ComponentTypes(new ComponentType[]
             {
                 typeof(ClickableNode),
+                typeof(ToggleCount),
                 typeof(IsMouseHovering),
             }));
             
@@ -35,6 +36,9 @@ public class ButtonConversion : GameObjectConversionSystem
                 RectMin = new float2(boundsMin.x, boundsMin.y),
                 RectMax = new float2(boundsMax.x, boundsMax.y),
             });
+
+            // redundant, but hey
+            DstEntityManager.SetComponentData(buttonEntity, new ToggleCount {Value = 0});
 
             if (button.initiallyOn)
             {
