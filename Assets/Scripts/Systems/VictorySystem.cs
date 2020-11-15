@@ -1,4 +1,5 @@
 ﻿using Unity.Assertions;
+using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
@@ -18,6 +19,15 @@ public class VictorySystem : SystemBase
 
     protected override void OnUpdate()
     {
+        // Count the total toggles
+        var totalToggleCount = new NativeReference<int>(Allocator.TempJob);
+        Entities.ForEach((in ToggleCount toggleCount) =>
+        {
+            totalToggleCount.Value = totalToggleCount.Value + toggleCount.Value;
+        }).Run();
+        Debug.Log($"Level cleared with {totalToggleCount.Value} toggle{(totalToggleCount.Value > 1 ? "s" : "")}!"); 
+        totalToggleCount.Dispose();
+        
         var ecb = _endInitEcbSystem.CreateCommandBuffer();
         Entities
             .WithName("VictorySystem")
