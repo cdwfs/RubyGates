@@ -12,15 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fc78a56e989104b9316595f09c19f8, type: 3}
   m_Name: LevelOrder
   m_EditorClassIdentifier: 
-  levels:
-  - Tutorial01
-  - Tutorial02
-  - TutorialAnd
-  - TutorialOr
-  - TutorialNot
-  - TutorialXor
-  - Level01
-  - Level02
-  - Level03
-  - TutorialBranch
-  - Level04
+  Levels:
+  - SceneName: Tutorial01
+    TargetToggleCount: 1
+  - SceneName: Tutorial02
+    TargetToggleCount: 2
+  - SceneName: TutorialAnd
+    TargetToggleCount: 2
+  - SceneName: TutorialOr
+    TargetToggleCount: 1
+  - SceneName: TutorialNot
+    TargetToggleCount: 1
+  - SceneName: TutorialXor
+    TargetToggleCount: 2
+  - SceneName: Level01
+    TargetToggleCount: 2
+  - SceneName: Level02
+    TargetToggleCount: 4
+  - SceneName: Level03
+    TargetToggleCount: 3
+  - SceneName: TutorialBranch
+    TargetToggleCount: 3
+  - SceneName: Level04
+    TargetToggleCount: 5

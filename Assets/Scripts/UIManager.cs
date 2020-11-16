@@ -110,16 +110,16 @@ public class UIManager : MonoBehaviour
             return;
 
         var currentSceneName = SceneManager.GetActiveScene().name;
-        int currentIndex = Array.FindIndex(levelOrder.levels, l => l == currentSceneName);
-        if (currentIndex == -1)
+        int currentLevelIndex = Array.FindIndex(levelOrder.Levels, l => l.SceneName == currentSceneName);
+        if (currentLevelIndex == -1)
             throw new ArgumentException($"Current Scene {currentSceneName} not found in LevelOrder");
-        int nextIndex = currentIndex + 1;
-        if (nextIndex >= levelOrder.levels.Length)
+        int nextIndex = currentLevelIndex + 1;
+        if (nextIndex >= levelOrder.Levels.Length)
         {
-            Debug.LogError($"next level {nextIndex} is out of range [0..{levelOrder.levels.Length - 1}]. Returning to level 0 instead.");
+            Debug.LogError($"next level {nextIndex} is out of range [0..{levelOrder.Levels.Length - 1}]. Returning to level 0 instead.");
             nextIndex = 0;
         }
-        SceneManager.LoadScene(levelOrder.levels[nextIndex]);
+        SceneManager.LoadScene(levelOrder.Levels[nextIndex].SceneName);
     }
 
 }

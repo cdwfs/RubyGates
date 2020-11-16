@@ -1,10 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+[Serializable]
+public class LevelInfo
+{
+    public string SceneName;
+    public int TargetToggleCount;
+}
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/LevelOrder", order = 1)]
 public class LevelOrder : ScriptableObject
 {
-    public string[] levels;
+    public LevelInfo[] Levels;
 }
