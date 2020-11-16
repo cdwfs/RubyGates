@@ -19,15 +19,12 @@ public class VictorySystem : SystemBase
 
     protected override void OnUpdate()
     {
-        // Count the total toggles
         var totalToggleCount = new NativeReference<int>(Allocator.TempJob);
         Entities.ForEach((in ToggleCount toggleCount) =>
         {
             totalToggleCount.Value = totalToggleCount.Value + toggleCount.Value;
         }).Run();
-        Debug.Log($"Level cleared with {totalToggleCount.Value} toggle{(totalToggleCount.Value > 1 ? "s" : "")}!"); 
-        totalToggleCount.Dispose();
-        
+
         var ecb = _endInitEcbSystem.CreateCommandBuffer();
         Entities
             .WithName("VictorySystem")
@@ -42,11 +39,13 @@ public class VictorySystem : SystemBase
                 ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
 
                 particles.Play();
-                
+
                 // Victory!
                 var uiMgr = GameObject.FindObjectOfType<UIManager>();
                 Assert.IsNotNull(uiMgr);
-                uiMgr.SetVictoryPanelActive(true);
+                uiMgr.ShowVictoryPanel(true, totalToggleCount.Value);
             }).Run();
+
+        totalToggleCount.Dispose();
     }
 }

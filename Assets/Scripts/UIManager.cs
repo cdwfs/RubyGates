@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,13 +39,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetVictoryPanelActive(bool active)
+    public void ShowVictoryPanel(bool active, int toggleCount)
     {
         if (active == victoryPanel.gameObject.activeSelf)
             return;
         
         victoryPanel.gameObject.SetActive(active);
-
+        var levelInfoText = victoryPanel.transform.Find("LevelInfoText").GetComponent<TMP_Text>();
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        var currentLevel = Array.Find(levelOrder.Levels, l => l.SceneName == currentSceneName);
+        levelInfoText.text = $"This: {toggleCount} | Goal: {currentLevel.TargetToggleCount}";
+            
         if (active)
             _modalPanelStack.Push(victoryPanel);
         else

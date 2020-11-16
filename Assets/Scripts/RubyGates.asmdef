@@ -1,10 +1,12 @@
 {
     "name": "RubyGates",
+    "rootNamespace": "",
     "references": [
         "Unity.Collections",
         "Unity.Entities",
         "Unity.Mathematics",
-        "Unity.Rendering.Hybrid"
+        "Unity.Rendering.Hybrid",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
