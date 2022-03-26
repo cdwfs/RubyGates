@@ -19,7 +19,7 @@ public partial class VictorySystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var totalToggleCount = new NativeReference<int>(Allocator.TempJob);
+        var totalToggleCount = new NativeReference<int>(World.UpdateAllocator.ToAllocator);
         Entities.ForEach((in ToggleCount toggleCount) =>
         {
             totalToggleCount.Value = totalToggleCount.Value + toggleCount.Value;
