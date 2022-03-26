@@ -8,6 +8,10 @@ Assets/AssetStoreTools*
 # DOTS subscene cache
 SceneDependencyCache*
 
+# Local IDE settings
+ProjectSettings/RiderScriptEditorPersistedState.asset
+UserSettings/
+
 # Visual Studio cache directory
 .vs/
 
