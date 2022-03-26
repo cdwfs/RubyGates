@@ -19,7 +19,7 @@ public struct DagDepth : ISharedComponentData
 }
 
 [UpdateBefore(typeof(HandleInputSystem))]
-public class GateDagSortSystem : SystemBase
+public partial class GateDagSortSystem : SystemBase
 {
     private EntityQuery _nodeQuery;
 
@@ -56,7 +56,7 @@ public class GateDagSortSystem : SystemBase
         validDagDepths.Clear();
 
         // Retrieve an array of all the node entities
-        var nodeEntities = _nodeQuery.ToEntityArray(Allocator.TempJob);
+        using var nodeEntities = _nodeQuery.ToEntityArray(World.UpdateAllocator.ToAllocator);
 
         // Generate an entity-to-index lookup table, so we can track inter-entity references as
         // list indices while sorting.
@@ -70,18 +70,18 @@ public class GateDagSortSystem : SystemBase
 
         var nodeInputs = GetBufferFromEntity<NodeInput>(true);
         var nodesToSort = new List<SortableNode>(nodeEntities.Length);
-        var nodeUnsortedInputCounts = new NativeArray<int>(nodeEntities.Length, Allocator.Temp);
-        var readyToSortIndices = new NativeList<int>(nodeEntities.Length, Allocator.Temp);
-        var nodeDepths = new NativeArray<int>(nodeEntities.Length, Allocator.Temp);
+        var nodeUnsortedInputCounts = CollectionHelper.CreateNativeArray<int>(nodeEntities.Length, World.UpdateAllocator.ToAllocator);
+        var readyToSortIndices = new NativeList<int>(nodeEntities.Length, World.UpdateAllocator.ToAllocator);
+        var nodeDepths = CollectionHelper.CreateNativeArray<int>(nodeEntities.Length, World.UpdateAllocator.ToAllocator);
         for (var i = 0; i < nodeEntities.Length; ++i)
         {
             var nodeEntity = nodeEntities[i];
             var sg = new SortableNode
             {
                 Entity = nodeEntities[i],
-                Inputs = new NativeList<int>(0, Allocator.Temp), // overwritten below if the node has an input list
+                Inputs = new NativeList<int>(0, World.UpdateAllocator.ToAllocator), // overwritten below if the node has an input list
                 // output count could technically go up to nodeEntities.Length, but we'll start capacity at 8 for now to avoid O(N^2) mem usage
-                Outputs = new NativeList<int>(8, Allocator.Temp),
+                Outputs = new NativeList<int>(8, World.UpdateAllocator.ToAllocator),
             };
             if (nodeInputs.HasComponent(nodeEntity))
             {
@@ -105,7 +105,6 @@ public class GateDagSortSystem : SystemBase
             nodeDepths[i] = -1;
         }
 
-        nodeEntities.Dispose();
         // Loop again to populate output lists
         for (var i = 0; i < nodesToSort.Count; ++i)
         {

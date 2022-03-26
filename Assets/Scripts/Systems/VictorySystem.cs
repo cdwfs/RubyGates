@@ -7,7 +7,7 @@ public struct VictoryTag : IComponentData {
 }
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class VictorySystem : SystemBase
+public partial class VictorySystem : SystemBase
 {
     EntityQuery _clickableNodeQuery;
     EndInitializationEntityCommandBufferSystem _endInitEcbSystem;
@@ -19,7 +19,7 @@ public class VictorySystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var totalToggleCount = new NativeReference<int>(Allocator.TempJob);
+        var totalToggleCount = new NativeReference<int>(World.UpdateAllocator.ToAllocator);
         Entities.ForEach((in ToggleCount toggleCount) =>
         {
             totalToggleCount.Value = totalToggleCount.Value + toggleCount.Value;
@@ -36,7 +36,7 @@ public class VictorySystem : SystemBase
                 ecb.RemoveComponent<VictoryTag>(sinkEntity);
 
                 // Disable mouse interaction with nodes once victory is detected
-                ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
+                ecb.RemoveComponentForEntityQuery<ClickableNode>(_clickableNodeQuery);
 
                 particles.Play();
 

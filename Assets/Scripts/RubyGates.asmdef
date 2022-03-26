@@ -2,6 +2,7 @@
     "name": "RubyGates",
     "rootNamespace": "",
     "references": [
+        "Unity.Burst",
         "Unity.Collections",
         "Unity.Entities",
         "Unity.Mathematics",

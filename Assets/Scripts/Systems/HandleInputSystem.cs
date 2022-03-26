@@ -31,7 +31,7 @@ public struct BranchState : IComponentData
     public float Value;
 }
 
-public class HandleInputSystem : SystemBase
+public partial class HandleInputSystem : SystemBase
 {
     private UIManager _uiManager;
 

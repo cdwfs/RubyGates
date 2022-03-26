@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Rendering;
 
@@ -18,7 +19,7 @@ public enum GateType
 [MaterialProperty("_NodeOutput", MaterialPropertyFormat.Float)]
 public struct NodeOutput : IComponentData
 {
-    public float Value; // TODO: this should be an int, but MaterialProperies must currently be floats.
+    public float Value; // TODO: this should be an int, but MaterialProperties must currently be floats.
 }
 
 // A buffer of the node entities (0+) whose outputs feed into this node.
@@ -35,8 +36,10 @@ public struct GateInfo : IComponentData
 }
 
 [UpdateAfter(typeof(HandleInputSystem))]
-public class GatePropagateSystem : SystemBase
+public partial class GatePropagateSystem : SystemBase
 {
+    // TODO: state on systems is an anti-pattern; make this a singleton.
+    // TODO: convert to NativeList (requires fixing the sort code in DagSortSystem
     public List<DagDepth> ValidDagDepths;
     private BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
     protected override void OnCreate()
