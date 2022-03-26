@@ -19,7 +19,7 @@ public struct DagDepth : ISharedComponentData
 }
 
 [UpdateBefore(typeof(HandleInputSystem))]
-public class GateDagSortSystem : SystemBase
+public partial class GateDagSortSystem : SystemBase
 {
     private EntityQuery _nodeQuery;
 

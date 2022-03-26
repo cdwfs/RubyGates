@@ -7,7 +7,7 @@ public struct VictoryTag : IComponentData {
 }
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class VictorySystem : SystemBase
+public partial class VictorySystem : SystemBase
 {
     EntityQuery _clickableNodeQuery;
     EndInitializationEntityCommandBufferSystem _endInitEcbSystem;

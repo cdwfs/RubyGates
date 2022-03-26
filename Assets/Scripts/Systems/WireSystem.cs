@@ -12,7 +12,7 @@ public struct WireState : IComponentData
 }
 
 [UpdateAfter(typeof(GatePropagateSystem))]
-public class WireSystem : SystemBase
+public partial class WireSystem : SystemBase
 {
     protected override void OnUpdate()
     {

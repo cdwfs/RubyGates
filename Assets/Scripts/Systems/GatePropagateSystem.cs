@@ -35,7 +35,7 @@ public struct GateInfo : IComponentData
 }
 
 [UpdateAfter(typeof(HandleInputSystem))]
-public class GatePropagateSystem : SystemBase
+public partial class GatePropagateSystem : SystemBase
 {
     public List<DagDepth> ValidDagDepths;
     private BeginPresentationEntityCommandBufferSystem _beginPresEcbSystem;
