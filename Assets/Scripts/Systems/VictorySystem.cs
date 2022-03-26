@@ -36,7 +36,7 @@ public partial class VictorySystem : SystemBase
                 ecb.RemoveComponent<VictoryTag>(sinkEntity);
 
                 // Disable mouse interaction with nodes once victory is detected
-                ecb.RemoveComponent<ClickableNode>(_clickableNodeQuery);
+                ecb.RemoveComponentForEntityQuery<ClickableNode>(_clickableNodeQuery);
 
                 particles.Play();
 

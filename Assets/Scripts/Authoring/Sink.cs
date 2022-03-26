@@ -14,12 +14,11 @@ public class SinkConversion : GameObjectConversionSystem
     {
         Entities.ForEach((Sink sink, ParticleSystem ps, ParticleSystemRenderer psr) =>
         {
-            AddHybridComponent(ps);
-            AddHybridComponent(psr);
-
             // Every scene needs a Sink, so it can drive the DAG sorting.
             var sinkEntity = GetPrimaryEntity(sink);
             DstEntityManager.AddComponent<DagIsStale>(sinkEntity);
+            DstEntityManager.AddComponentObject(sinkEntity, ps);
+            DstEntityManager.AddComponentObject(sinkEntity, psr);
         });
     }
 }
